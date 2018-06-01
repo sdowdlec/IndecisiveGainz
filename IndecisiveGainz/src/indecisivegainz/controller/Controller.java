@@ -10,6 +10,10 @@ public class Controller
 	
 	private Controller() {}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public static Controller getInstance()
 	{
 		if(theInstance == null)
