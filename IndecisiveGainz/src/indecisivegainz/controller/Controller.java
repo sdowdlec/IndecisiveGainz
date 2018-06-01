@@ -12,7 +12,7 @@ public class Controller
 	
 	/**
 	 * 
-	 * @return
+	 * @return 
 	 */
 	public static Controller getInstance()
 	{
