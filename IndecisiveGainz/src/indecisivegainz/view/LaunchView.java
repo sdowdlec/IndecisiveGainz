@@ -16,7 +16,7 @@ public class LaunchView extends Application
 	public void start(Stage primaryStage) throws Exception 
 	{
 		ViewNavigator.setStage(primaryStage);
-		//ViewNavigator.loadScene("", ViewNavigator.);
+		ViewNavigator.loadScene("Login", ViewNavigator.LOGIN_SCENE);
 	}
 	
 	/**

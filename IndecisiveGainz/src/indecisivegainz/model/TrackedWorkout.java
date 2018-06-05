@@ -1,5 +1,9 @@
 package indecisivegainz.model;
-
+/**
+ * 
+ * @author Sean Dowdle
+ *
+ */
 public class TrackedWorkout extends Workout 
 {
 	private int mReps;

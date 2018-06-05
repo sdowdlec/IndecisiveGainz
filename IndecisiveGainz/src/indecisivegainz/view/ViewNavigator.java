@@ -14,6 +14,10 @@ public class ViewNavigator
 {
 	public static Stage mainStage;
 	
+	public static final String LOGIN_SCENE = "LoginScene.fxml";
+	public static final String SIGNUP_SCENE = "SingupScene.fxml";
+	public static final String MAIN_SCENE = "MainScene.fxml";
+	
 	/**
 	 * 
 	 * @param stage
