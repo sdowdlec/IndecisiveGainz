@@ -35,6 +35,6 @@ public class SignupScene
 	@FXML
 	public void loadSigninScene() 
 	{
-		// TODO
+		ViewNavigator.loadScene("Login", ViewNavigator.LOGIN_SCENE);
 	}
 }

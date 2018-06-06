@@ -15,7 +15,7 @@ public class ViewNavigator
 	public static Stage mainStage;
 	
 	public static final String LOGIN_SCENE = "LoginScene.fxml";
-	public static final String SIGNUP_SCENE = "SingupScene.fxml";
+	public static final String SIGNUP_SCENE = "SignupScene.fxml";
 	public static final String MAIN_SCENE = "MainScene.fxml";
 	
 	/**
@@ -35,9 +35,20 @@ public class ViewNavigator
 	public static void loadScene(String title, String sceneFXML)
 	{
 		try
-		{
+		{	
 			Scene scene = new Scene(FXMLLoader.load(ViewNavigator.class.getResource(sceneFXML)));
+			mainStage.setTitle(title);
 			mainStage.setScene(scene);
+			
+			if(sceneFXML.equals(LOGIN_SCENE) || sceneFXML.equals(SIGNUP_SCENE))
+			{
+				mainStage.setWidth(400);
+				mainStage.setHeight(529);
+				mainStage.setResizable(false);
+			}
+			else
+				mainStage.setResizable(true);
+			
 			mainStage.show();
 		}
 		catch(IOException e)
