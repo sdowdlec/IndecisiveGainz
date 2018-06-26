@@ -32,7 +32,7 @@ public class LoginScene
 	@FXML
 	public void continueAsGuest() 
 	{
-		ViewNavigator.loadScene("Main Menu", ViewNavigator.MAIN_SCENE);
+		ViewNavigator.loadMainSceneDefault();
 	}
 	// Event Listener on Label[#signupLabel].onMouseClicked
 	@FXML
