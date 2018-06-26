@@ -77,9 +77,9 @@ public class ViewNavigator
 	 */
 	public static void loadMainSceneDefault()
 	{
-		menuContainer.setMaxSize(800, 500);
-		menuContainer.setPrefSize(800, 500);
-		menuContainer.setMinSize(800, 500);
+		mainStage.setResizable(true);
+		mainStage.setWidth(800);
+		mainStage.setHeight(500);
 		loadPane("MainMenuBar.fxml");
 		Scene scene = new Scene(menuContainer);
 		mainStage.setTitle("Main Menu");
