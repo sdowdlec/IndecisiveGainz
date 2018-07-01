@@ -9,10 +9,13 @@ import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
 
 import javafx.scene.control.ComboBox;
-
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 
-public class CreateWorkoutPane {
+public class CreateWorkoutPane 
+{
+	@FXML
+	private Label errorLabel;
 	@FXML
 	private BorderPane createWorkoutPane;
 	@FXML
