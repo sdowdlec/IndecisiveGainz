@@ -4,7 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import indecisivegainz.model.*;
@@ -38,6 +40,7 @@ public class Controller
 	private ObservableList<String> mAllChestWorkoutsList;
 	private ObservableList<String> mAllAbWorkoutsList;
 	private ObservableList<String> mAllBicepWorkoutsList;
+	private ObservableList<String> mAllBackWorkoutsList;
 	private ObservableList<String> mAllTricepWorkoutsList;
 	private ObservableList<String> mAllLegWorkoutsList;
 	
@@ -67,13 +70,25 @@ public class Controller
 			theInstance.mAllChestWorkoutsList = FXCollections.observableArrayList();
 			theInstance.mAllAbWorkoutsList = FXCollections.observableArrayList();
 			theInstance.mAllBicepWorkoutsList = FXCollections.observableArrayList();
+			theInstance.mAllBackWorkoutsList = FXCollections.observableArrayList();
 			theInstance.mAllTricepWorkoutsList = FXCollections.observableArrayList();
 			theInstance.mAllLegWorkoutsList = FXCollections.observableArrayList();
 			
 			try
 			{
-				theInstance.mWorkoutsDB = new DBModel(DB_NAME, WORKOUTS_TABLE_NAME, WORKOUTS_FIELD_NAMES, WORKOUTS_FIELD_TYPES);
+				/*
+				1) Create a DBModel Object for the specific database
+				2) Initialize the databases from files if need be
+				3) Get a result set and add them to the observable list
+				*/
 				
+				// Workouts
+				theInstance.mWorkoutsDB = new DBModel(DB_NAME, WORKOUTS_TABLE_NAME, WORKOUTS_FIELD_NAMES, WORKOUTS_FIELD_TYPES);
+				theInstance.initializeWorkoutsDBFromFile();
+				theInstance.initializeWorkoutLists(theInstance.mWorkoutsDB.getAllRecords());
+				theInstance.initializeMuscleGroupsList(theInstance.mWorkoutsDB.getAllRecords());
+				
+				// TrackedWorkouts
 				theInstance.mTrackedWorkoutsDB = new DBModel(DB_NAME, TRACKED_WORKOUTS_TABLE_NAME, TRACKED_WORKOUTS_FIELD_NAMES, TRACKED_WORKOUTS_FIELD_TYPES);
 				
 			}
@@ -100,7 +115,14 @@ public class Controller
 			
 			while(fileScanner.hasNextLine())
 			{
+				String[] data = fileScanner.nextLine().split(",");
+				String[] values = new String[WORKOUTS_FIELD_NAMES.length - 1];
 				
+				values[0] = data[0];
+				values[1] = data[1];
+				
+				theInstance.mWorkoutsDB.createRecord(Arrays.copyOfRange(WORKOUTS_FIELD_NAMES, 1, WORKOUTS_FIELD_NAMES.length), values);
+				++recordsCreated;
 			}
 			
 			fileScanner.close();
@@ -111,5 +133,68 @@ public class Controller
 		}
 		
 		return recordsCreated;
+	}
+	
+	/**
+	 * Initializes all of the different workouts lists.
+	 * @param workouts The ResultSet containing all of the workouts in the database
+	 * @throws SQLException
+	 */
+	private void initializeWorkoutLists(ResultSet workouts) throws SQLException
+	{
+		if(workouts != null)
+		{
+			while(workouts.next())
+			{
+				int id = workouts.getInt(WORKOUTS_FIELD_NAMES[0]);
+				String muscleGroup = workouts.getString(WORKOUTS_FIELD_NAMES[1]);
+				String workoutName = workouts.getString(WORKOUTS_FIELD_NAMES[2]);
+				
+				switch(muscleGroup)
+				{
+					case "Shoulders":
+						theInstance.mAllShoulderWorkoutsList.add(workoutName);
+					case "Chest":
+						theInstance.mAllChestWorkoutsList.add(workoutName);
+					case "Abs":
+						theInstance.mAllAbWorkoutsList.add(workoutName);
+					case "Back":
+						theInstance.mAllBackWorkoutsList.add(workoutName);
+					case "Biceps":
+						theInstance.mAllBicepWorkoutsList.add(workoutName);
+					case "Triceps":
+						theInstance.mAllTricepWorkoutsList.add(workoutName);
+					case "Legs":
+						theInstance.mAllLegWorkoutsList.add(workoutName);
+				}
+				
+				theInstance.mAllWorkoutsList.add(new Workout(id, muscleGroup, workoutName));
+			}
+		}
+	}
+	
+	/**
+	 * Initializes the mMuscleGroupsList to contain only UNIQUE muscle groups from the
+	 * workouts table.
+	 * @param workouts The ResultSet containing all of the workouts in the database
+	 * @return A boolean based on if the muscle group was unique and could be added
+	 * @throws SQLException
+	 */
+	private boolean initializeMuscleGroupsList(ResultSet workouts) throws SQLException
+	{
+		if(workouts != null)
+		{
+			while(workouts.next())
+			{
+				if(!theInstance.mAllMuscleGroupsList.contains(workouts.getString(1)))
+				{
+					theInstance.mAllMuscleGroupsList.add(workouts.getString(1));
+					return true;
+				}
+			}
+			return false;
+		}
+		else
+			return false;
 	}
 }

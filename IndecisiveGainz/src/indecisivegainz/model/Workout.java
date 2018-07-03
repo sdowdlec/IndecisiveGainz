@@ -6,6 +6,7 @@ package indecisivegainz.model;
  */
 public class Workout 
 {
+	protected int mId;
 	protected String mWorkoutName;
 	protected String mMuscleGroup;
 	
@@ -14,8 +15,9 @@ public class Workout
 	 * @param workoutName
 	 * @param muscleGroup
 	 */
-	public Workout(String workoutName, String muscleGroup)
+	public Workout(int id, String workoutName, String muscleGroup)
 	{
+		mId = id;
 		mWorkoutName = workoutName;
 		mMuscleGroup = muscleGroup;
 	}

@@ -16,9 +16,9 @@ public class TrackedWorkout extends Workout
 	 * @param reps
 	 * @param weight
 	 */
-	public TrackedWorkout(String workoutName, String muscleGroup, int reps, double weight)
+	public TrackedWorkout(int id, String workoutName, String muscleGroup, int reps, double weight)
 	{
-		super(workoutName, muscleGroup);
+		super(id, workoutName, muscleGroup);
 		mReps = reps;
 		mWeight = weight;
 	}
