@@ -33,7 +33,7 @@ public class Controller
 	Maybe just add it to the database, and make a observable list containing only the tracked workouts
 	of a particular workout when viewed
 	*/
-	private ObservableList<TrackedWorkout> mCurrentlyViewedTrackedWorkout;
+	private ObservableList<TrackedWorkout> mCurrentlyViewedTrackedWorkoutList;
 	private ObservableList<String> mAllMuscleGroupsList;
 	
 	private ObservableList<String> mAllShoulderWorkoutsList;
@@ -64,7 +64,7 @@ public class Controller
 		if(theInstance == null)
 		{
 			theInstance = new Controller();
-			theInstance.mCurrentlyViewedTrackedWorkout = FXCollections.observableArrayList();
+			theInstance.mCurrentlyViewedTrackedWorkoutList = FXCollections.observableArrayList();
 			theInstance.mAllMuscleGroupsList = FXCollections.observableArrayList();
 			theInstance.mAllShoulderWorkoutsList = FXCollections.observableArrayList();
 			theInstance.mAllChestWorkoutsList = FXCollections.observableArrayList();
@@ -85,11 +85,12 @@ public class Controller
 				// Workouts
 				theInstance.mWorkoutsDB = new DBModel(DB_NAME, WORKOUTS_TABLE_NAME, WORKOUTS_FIELD_NAMES, WORKOUTS_FIELD_TYPES);
 				theInstance.initializeWorkoutsDBFromFile();
-				theInstance.initializeWorkoutLists(theInstance.mWorkoutsDB.getAllRecords());
-				theInstance.initializeMuscleGroupsList(theInstance.mWorkoutsDB.getAllRecords());
+				theInstance.initializeWorkoutLists();
+				theInstance.initializeMuscleGroupsList();
 				
 				// TrackedWorkouts
 				theInstance.mTrackedWorkoutsDB = new DBModel(DB_NAME, TRACKED_WORKOUTS_TABLE_NAME, TRACKED_WORKOUTS_FIELD_NAMES, TRACKED_WORKOUTS_FIELD_TYPES);
+				// theInstance.initializeTrackedWorkoutsList(theInstance.mTrackedWorkoutsDB.getAllRecords());
 				
 			}
 			catch(SQLException e)
@@ -140,8 +141,10 @@ public class Controller
 	 * @param workouts The ResultSet containing all of the workouts in the database
 	 * @throws SQLException
 	 */
-	private void initializeWorkoutLists(ResultSet workouts) throws SQLException
+	private void initializeWorkoutLists() throws SQLException
 	{
+		ResultSet workouts = theInstance.mWorkoutsDB.getAllRecords();
+		
 		if(workouts != null)
 		{
 			while(workouts.next())
@@ -177,24 +180,62 @@ public class Controller
 	 * Initializes the mMuscleGroupsList to contain only UNIQUE muscle groups from the
 	 * workouts table.
 	 * @param workouts The ResultSet containing all of the workouts in the database
-	 * @return A boolean based on if the muscle group was unique and could be added
 	 * @throws SQLException
 	 */
-	private boolean initializeMuscleGroupsList(ResultSet workouts) throws SQLException
+	private void initializeMuscleGroupsList() throws SQLException
 	{
+		ResultSet workouts = theInstance.mWorkoutsDB.getAllRecords();
+		
 		if(workouts != null)
-		{
 			while(workouts.next())
-			{
 				if(!theInstance.mAllMuscleGroupsList.contains(workouts.getString(1)))
-				{
 					theInstance.mAllMuscleGroupsList.add(workouts.getString(1));
-					return true;
-				}
-			}
-			return false;
+	}
+	
+	/**
+	 * 
+	 * @param muscleGroup
+	 * @return
+	 */
+	private boolean addToMuscleGroupsList(String muscleGroup)
+	{
+		if(!theInstance.mAllMuscleGroupsList.contains(muscleGroup))
+		{
+			theInstance.mAllMuscleGroupsList.add(muscleGroup);
+			return true;
 		}
 		else
 			return false;
+			
+	}
+	
+	/**
+	 * Initializes the mCurrentlyViewedTrackedWorkoutsList to contain all records of that
+	 * specific workout by filtering on the workout name.
+	 * @param workoutName
+	 * @return The number of records that were added to the list
+	 * @throws SQLException
+	 */
+	public int initializeViewedTrackedWorkoutsList(String workoutName) throws SQLException
+	{
+		int createdRecords = 0;
+		ResultSet trackedWorkouts = theInstance.mTrackedWorkoutsDB.getAllRecords();
+		
+		while(trackedWorkouts.next())
+		{
+			String name = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[1]);
+			if(name.equalsIgnoreCase(workoutName))
+			{
+				int id = trackedWorkouts.getInt(TRACKED_WORKOUTS_FIELD_NAMES[0]);
+				String muscleGroup = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[2]);
+				int reps = trackedWorkouts.getInt(TRACKED_WORKOUTS_FIELD_NAMES[3]);
+				double weight = trackedWorkouts.getDouble(TRACKED_WORKOUTS_FIELD_NAMES[4]);
+				
+				theInstance.mCurrentlyViewedTrackedWorkoutList.add(new TrackedWorkout(id, name, muscleGroup, reps, weight));
+				++createdRecords;
+			}
+		}
+		
+		return createdRecords;
 	}
 }

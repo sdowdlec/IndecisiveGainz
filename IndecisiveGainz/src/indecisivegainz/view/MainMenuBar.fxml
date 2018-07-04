@@ -15,8 +15,8 @@
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="2.0" style="-fx-background-color: black; -fx-border-color: black;" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="createWorkoutButton" mnemonicParsing="false" onAction="#loadCreateWorkoutPane" prefHeight="40.0" prefWidth="177.0" style="-fx-background-color: silver; -fx-background-radius: 0;" text="Create New Workout" />
-            <Button fx:id="trackWorkoutButton" mnemonicParsing="false" onAction="#loadTrackWorkoutPane" prefHeight="40.0" prefWidth="177.0" style="-fx-background-color: silver; -fx-background-radius: 0;" text="Track New Workout" />
-            <Button fx:id="viewWorkoutsButton" mnemonicParsing="false" onAction="#loadViewWorkoutsPane" prefHeight="40.0" prefWidth="177.0" style="-fx-background-color: silver; -fx-background-radius: 0;" text="View Workouts" />
+            <Button mnemonicParsing="false" onAction="#loadMuscleGroupsPane" prefHeight="40.0" prefWidth="177.0" style="-fx-background-color: silver; -fx-background-radius: 0;" text="Track New Workout" />
+            <Button mnemonicParsing="false" onAction="#loadMuscleGroupsPane" prefHeight="40.0" prefWidth="177.0" style="-fx-background-color: silver; -fx-background-radius: 0;" text="View Workouts" />
             <Button fx:id="generateRoutineButton" mnemonicParsing="false" onAction="#loadGenerateRoutineOptions" prefHeight="40.0" prefWidth="177.0" style="-fx-background-color: silver; -fx-background-radius: 0;" text="Generate Routine" />
          </children>
       </VBox>

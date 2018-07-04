@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -64,4 +65,15 @@
          </padding>
       </Label>
    </top>
+   <bottom>
+      <Button mnemonicParsing="false" onAction="#loadWorkoutsPane" style="-fx-background-color: transparent;" textFill="TRANSPARENT" BorderPane.alignment="BOTTOM_LEFT">
+         <graphic>
+            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../images/backButton.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+   </bottom>
 </BorderPane>
