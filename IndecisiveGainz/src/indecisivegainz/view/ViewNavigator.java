@@ -14,7 +14,7 @@ import javafx.stage.Stage;
  */
 public class ViewNavigator 
 {
-	public static HBox menuContainer = new HBox();
+	public static HBox menuContainer;
 	public static Stage mainStage;
 	
 	public static final String LOGIN_SCENE = "LoginScene.fxml";
@@ -77,6 +77,7 @@ public class ViewNavigator
 	 */
 	public static void loadMainSceneDefault()
 	{
+		menuContainer = new HBox();
 		mainStage.setResizable(true);
 		mainStage.setWidth(800);
 		mainStage.setHeight(500);
