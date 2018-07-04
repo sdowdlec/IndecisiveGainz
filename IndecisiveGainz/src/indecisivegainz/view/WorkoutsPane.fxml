@@ -30,6 +30,6 @@
          </graphic></Button>
    </bottom>
    <center>
-      <ListView fx:id="workoutsLV" onMouseClicked="#loadTrackWorkoutPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <ListView fx:id="workoutsLV" onMouseClicked="#loadNextPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

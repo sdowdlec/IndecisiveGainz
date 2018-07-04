@@ -31,13 +31,21 @@ public class WorkoutsPane implements Initializable
 	}
 	
 	@FXML
-	public void loadTrackWorkoutPane()
+	public void loadNextPane()
 	{
 		String selectedItem = workoutsLV.getSelectionModel().getSelectedItem();
 		if(selectedItem != null)
 		{
 			selectedWorkout = selectedItem;
-			ViewNavigator.loadPane("TrackWorkoutPane.fxml");
+			if(MuscleGroupsPane.getPath().equals("track"))
+			{
+				ViewNavigator.loadPane("TrackWorkoutPane.fxml");
+			}
+			else
+			{
+				// TODO Create a workout history pane and load it here
+				//ViewNavigator.loadPane("");
+			}
 		}
 	}
 	

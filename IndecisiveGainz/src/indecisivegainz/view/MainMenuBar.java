@@ -29,9 +29,16 @@ public class MainMenuBar
 	}
 	// Event Listener on Button[#trackWorkoutButton].onAction
 	@FXML
-	public void loadMuscleGroupsPane() 
+	public void loadMuscleGroupsPaneTrack() 
 	{
 		ViewNavigator.loadPane("MuscleGroupsPane.fxml");
+		MuscleGroupsPane.setPath("track");
+	}
+	@FXML
+	public void loadMuscleGroupsPaneView() 
+	{
+		ViewNavigator.loadPane("MuscleGroupsPane.fxml");
+		MuscleGroupsPane.setPath("view");
 	}
 	// Event Listener on Button[#generateRoutineButton].onAction
 	@FXML

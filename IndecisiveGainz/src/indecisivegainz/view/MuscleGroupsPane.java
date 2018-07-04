@@ -15,6 +15,8 @@ public class MuscleGroupsPane implements Initializable
 	
 	public static String selectedMuscleGroup;
 	
+	public static String path;
+	
 	@FXML
 	private BorderPane workouts;
 	@FXML
@@ -34,6 +36,16 @@ public class MuscleGroupsPane implements Initializable
 			selectedMuscleGroup = selectedItem;
 			ViewNavigator.loadPane("WorkoutsPane.fxml");
 		}
+	}
+	
+	public static String getPath()
+	{
+		return path;
+	}
+	
+	public static void setPath(String buttonPath)
+	{
+		path = buttonPath;
 	}
 	
 	public static String getSelectedMuscleGroup()
