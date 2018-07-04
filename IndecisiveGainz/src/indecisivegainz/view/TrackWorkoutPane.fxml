@@ -56,7 +56,7 @@
       </VBox>
    </center>
    <top>
-      <Label text="Temp" BorderPane.alignment="CENTER">
+      <Label fx:id="workoutNameLabel" BorderPane.alignment="CENTER">
          <font>
             <Font size="30.0" />
          </font>

@@ -16,7 +16,7 @@ import indecisivegainz.model.*;
  * @author Sean Dowdle
  *
  */
-public class Controller
+public class Controller implements AutoCloseable
 {
 	private static Controller theInstance;
 	
@@ -65,6 +65,7 @@ public class Controller
 		{
 			theInstance = new Controller();
 			theInstance.mCurrentlyViewedTrackedWorkoutList = FXCollections.observableArrayList();
+			theInstance.mAllWorkoutsList = FXCollections.observableArrayList();
 			theInstance.mAllMuscleGroupsList = FXCollections.observableArrayList();
 			theInstance.mAllShoulderWorkoutsList = FXCollections.observableArrayList();
 			theInstance.mAllChestWorkoutsList = FXCollections.observableArrayList();
@@ -157,18 +158,25 @@ public class Controller
 				{
 					case "Shoulders":
 						theInstance.mAllShoulderWorkoutsList.add(workoutName);
+						break;
 					case "Chest":
 						theInstance.mAllChestWorkoutsList.add(workoutName);
+						break;
 					case "Abs":
 						theInstance.mAllAbWorkoutsList.add(workoutName);
+						break;
 					case "Back":
 						theInstance.mAllBackWorkoutsList.add(workoutName);
+						break;
 					case "Biceps":
 						theInstance.mAllBicepWorkoutsList.add(workoutName);
+						break;
 					case "Triceps":
 						theInstance.mAllTricepWorkoutsList.add(workoutName);
+						break;
 					case "Legs":
 						theInstance.mAllLegWorkoutsList.add(workoutName);
+						break;
 				}
 				
 				theInstance.mAllWorkoutsList.add(new Workout(id, muscleGroup, workoutName));
@@ -186,10 +194,9 @@ public class Controller
 	{
 		ResultSet workouts = theInstance.mWorkoutsDB.getAllRecords();
 		
-		if(workouts != null)
-			while(workouts.next())
-				if(!theInstance.mAllMuscleGroupsList.contains(workouts.getString(1)))
-					theInstance.mAllMuscleGroupsList.add(workouts.getString(1));
+		while(workouts.next())
+			if(!theInstance.mAllMuscleGroupsList.contains(workouts.getString(2)))
+				theInstance.mAllMuscleGroupsList.add(workouts.getString(2));
 	}
 	
 	/**
@@ -237,5 +244,46 @@ public class Controller
 		}
 		
 		return createdRecords;
+	}
+	
+	public ObservableList<String> getAllMuscleGroups()
+	{
+		return mAllMuscleGroupsList;
+	}
+	
+	public ObservableList<String> getAllShoulderWorkoutsList()
+	{
+		return mAllShoulderWorkoutsList;
+	}
+	public ObservableList<String> getAllChestWorkoutsList()
+	{
+		return mAllChestWorkoutsList;
+	}
+	public ObservableList<String> getAllAbWorkoutsList()
+	{
+		return mAllAbWorkoutsList;
+	}
+	public ObservableList<String> getAllBicepWorkoutsList()
+	{
+		return mAllBicepWorkoutsList;
+	}
+	public ObservableList<String> getAllBackWorkoutsList()
+	{
+		return mAllBackWorkoutsList;
+	}
+	public ObservableList<String> getAllTricepWorkoutsList()
+	{
+		return mAllTricepWorkoutsList;
+	}
+	public ObservableList<String> getAllLegWorkoutsList()
+	{
+		return mAllLegWorkoutsList;
+	}
+
+	@Override
+	public void close() throws Exception 
+	{
+		mWorkoutsDB.close();
+		mTrackedWorkoutsDB.close();
 	}
 }

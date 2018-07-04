@@ -1,17 +1,27 @@
 package indecisivegainz.view;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import indecisivegainz.controller.Controller;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 
-public class WorkoutsPane {
+public class WorkoutsPane implements Initializable
+{
+	private static Controller controller = Controller.getInstance();
+	
+	public static String selectedWorkout;
+	
 	@FXML
 	private BorderPane workouts;
 	@FXML
 	private Button backButton;
 	@FXML
-	private ListView workoutsLV;
+	private ListView<String> workoutsLV;
 
 	// Event Listener on Button[#backButton].onAction
 	@FXML
@@ -23,6 +33,45 @@ public class WorkoutsPane {
 	@FXML
 	public void loadTrackWorkoutPane()
 	{
-		ViewNavigator.loadPane("TrackWorkoutPane.fxml");
+		String selectedItem = workoutsLV.getSelectionModel().getSelectedItem();
+		if(selectedItem != null)
+		{
+			selectedWorkout = selectedItem;
+			ViewNavigator.loadPane("TrackWorkoutPane.fxml");
+		}
+	}
+	
+	public static String getSelectedWorkout()
+	{
+		return selectedWorkout;
+	}
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) 
+	{
+		switch(MuscleGroupsPane.getSelectedMuscleGroup())
+		{
+			case "Shoulders":
+				workoutsLV.setItems(controller.getAllShoulderWorkoutsList());
+				break;
+			case "Chest":
+				workoutsLV.setItems(controller.getAllChestWorkoutsList());
+				break;
+			case "Abs":
+				workoutsLV.setItems(controller.getAllAbWorkoutsList());
+				break;
+			case "Back":
+				workoutsLV.setItems(controller.getAllBackWorkoutsList());
+				break;
+			case "Biceps":
+				workoutsLV.setItems(controller.getAllBicepWorkoutsList());
+				break;
+			case "Triceps":
+				workoutsLV.setItems(controller.getAllTricepWorkoutsList());
+				break;
+			case "Legs":
+				workoutsLV.setItems(controller.getAllLegWorkoutsList());
+				break;
+		}
 	}
 }

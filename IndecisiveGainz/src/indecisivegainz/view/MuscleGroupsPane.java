@@ -1,29 +1,50 @@
 package indecisivegainz.view;
 
 import javafx.fxml.FXML;
-
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-
-import javafx.event.ActionEvent;
-
+import java.net.URL;
+import java.util.ResourceBundle;
+import indecisivegainz.controller.Controller;
 import javafx.scene.control.ListView;
-
-import javafx.scene.input.MouseEvent;
-
 import javafx.scene.layout.BorderPane;
 
-public class MuscleGroupsPane {
+public class MuscleGroupsPane implements Initializable
+{
+	private static Controller controller = Controller.getInstance();
+	
+	public static String selectedMuscleGroup;
+	
 	@FXML
 	private BorderPane workouts;
 	@FXML
 	private Button backButton;
 	@FXML
-	private ListView muscleGroupsLV;
+	private ListView<String> muscleGroupsLV;
 
-	// Event Listener on ListView[#muscleGroupsLV].onMouseClicked
+	/*
+	 * On mouse clicked, load the workouts pane and pass data to it.
+	 */
 	@FXML
 	public void loadWorkoutsPane() 
 	{
-		ViewNavigator.loadPane("WorkoutsPane.fxml");
+		String selectedItem = muscleGroupsLV.getSelectionModel().getSelectedItem();
+		if(selectedItem != null)
+		{
+			selectedMuscleGroup = selectedItem;
+			ViewNavigator.loadPane("WorkoutsPane.fxml");
+		}
+	}
+	
+	public static String getSelectedMuscleGroup()
+	{
+		return selectedMuscleGroup;
+	}
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) 
+	{
+		// TODO Auto-generated method stub
+		muscleGroupsLV.setItems(controller.getAllMuscleGroups());
 	}
 }
