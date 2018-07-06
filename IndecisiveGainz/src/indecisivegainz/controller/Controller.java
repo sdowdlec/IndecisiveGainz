@@ -246,6 +246,11 @@ public class Controller implements AutoCloseable
 		return createdRecords;
 	}
 	
+	public ObservableList<Workout> getAllWorkoutsList()
+	{
+		return mAllWorkoutsList;
+	}
+	
 	public ObservableList<String> getAllMuscleGroups()
 	{
 		return mAllMuscleGroupsList;
@@ -278,6 +283,32 @@ public class Controller implements AutoCloseable
 	public ObservableList<String> getAllLegWorkoutsList()
 	{
 		return mAllLegWorkoutsList;
+	}
+	
+	public boolean addNewWorkout(String workoutName, String muscleGroup)
+	{
+		// TODO Look into making this feel less hacky
+		int count = 0;
+		for(Workout w : mAllWorkoutsList)
+			if( !(w.getMuscleGroup().equalsIgnoreCase(muscleGroup) && w.getWorkoutName().equalsIgnoreCase(workoutName)) )
+				++count;
+
+		if(count == mAllWorkoutsList.size())
+		{
+			try
+			{
+				String[] values = { workoutName, muscleGroup };
+				int id = mWorkoutsDB.createRecord(Arrays.copyOfRange(WORKOUTS_FIELD_NAMES, 1, WORKOUTS_FIELD_NAMES.length), values);
+				mAllWorkoutsList.add(new Workout(id, workoutName, muscleGroup));
+				return true;
+			}
+			catch(SQLException e)
+			{
+				e.printStackTrace();
+				return false;
+			}
+		}
+		return false;
 	}
 
 	@Override

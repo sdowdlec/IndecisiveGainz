@@ -30,6 +30,12 @@ public class WorkoutsPane implements Initializable
 		ViewNavigator.loadPane("MuscleGroupsPane.fxml");
 	}
 	
+	/**
+	 * Loads the correct pane based on which button was originally pressed from the main menu.
+	 * If the user selected Track Workouts, it will load the TrackWorkoutPane after WorkoutsPane.
+	 * If the user selected View Workouts, it will load the . . . after WorkoutsPane.
+	 * Both button use the same path to load MuscleGroups -> WorkoutsPane but then fork after.
+	 */
 	@FXML
 	public void loadNextPane()
 	{

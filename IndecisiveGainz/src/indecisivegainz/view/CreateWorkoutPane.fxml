@@ -44,7 +44,7 @@
                   </Button>
                </children>
             </HBox>
-            <Label fx:id="errorLabel" text="Workout Already Exists" textFill="RED" visible="false">
+            <Label fx:id="errorLabel" textFill="RED" visible="false">
                <font>
                   <Font size="18.0" />
                </font>
