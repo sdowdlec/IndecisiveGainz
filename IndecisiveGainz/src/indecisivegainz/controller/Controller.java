@@ -288,6 +288,10 @@ public class Controller implements AutoCloseable
 	public boolean addNewWorkout(String workoutName, String muscleGroup)
 	{
 		// TODO Look into making this feel less hacky
+		// TODO Fix bug where the new workout is being addd but not displayed in the ObservableList  / ListView
+		if(workoutName.equals("") || muscleGroup == null)
+			return false;
+		
 		int count = 0;
 		for(Workout w : mAllWorkoutsList)
 			if( !(w.getMuscleGroup().equalsIgnoreCase(muscleGroup) && w.getWorkoutName().equalsIgnoreCase(workoutName)) )
