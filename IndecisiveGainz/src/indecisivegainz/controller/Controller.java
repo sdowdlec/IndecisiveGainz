@@ -157,25 +157,25 @@ public class Controller implements AutoCloseable
 				switch(muscleGroup)
 				{
 					case "Shoulders":
-						theInstance.mAllShoulderWorkoutsList.add(workoutName);
+						mAllShoulderWorkoutsList.add(workoutName);
 						break;
 					case "Chest":
-						theInstance.mAllChestWorkoutsList.add(workoutName);
+						mAllChestWorkoutsList.add(workoutName);
 						break;
 					case "Abs":
-						theInstance.mAllAbWorkoutsList.add(workoutName);
+						mAllAbWorkoutsList.add(workoutName);
 						break;
 					case "Back":
-						theInstance.mAllBackWorkoutsList.add(workoutName);
+						mAllBackWorkoutsList.add(workoutName);
 						break;
 					case "Biceps":
-						theInstance.mAllBicepWorkoutsList.add(workoutName);
+						mAllBicepWorkoutsList.add(workoutName);
 						break;
 					case "Triceps":
-						theInstance.mAllTricepWorkoutsList.add(workoutName);
+						mAllTricepWorkoutsList.add(workoutName);
 						break;
 					case "Legs":
-						theInstance.mAllLegWorkoutsList.add(workoutName);
+						mAllLegWorkoutsList.add(workoutName);
 						break;
 				}
 				
@@ -304,6 +304,7 @@ public class Controller implements AutoCloseable
 				String[] values = { workoutName, muscleGroup };
 				int id = mWorkoutsDB.createRecord(Arrays.copyOfRange(WORKOUTS_FIELD_NAMES, 1, WORKOUTS_FIELD_NAMES.length), values);
 				mAllWorkoutsList.add(new Workout(id, workoutName, muscleGroup));
+				addWorkoutToCorrectWorkoutList(workoutName, muscleGroup);
 				return true;
 			}
 			catch(SQLException e)
@@ -313,6 +314,34 @@ public class Controller implements AutoCloseable
 			}
 		}
 		return false;
+	}
+	
+	public void addWorkoutToCorrectWorkoutList(String workoutName, String muscleGroup)
+	{
+		switch(muscleGroup)
+		{
+			case "Shoulders":
+				mAllShoulderWorkoutsList.add(workoutName);
+				break;
+			case "Chest":
+				mAllChestWorkoutsList.add(workoutName);
+				break;
+			case "Abs":
+				mAllAbWorkoutsList.add(workoutName);
+				break;
+			case "Back":
+				mAllBackWorkoutsList.add(workoutName);
+				break;
+			case "Biceps":
+				mAllBicepWorkoutsList.add(workoutName);
+				break;
+			case "Triceps":
+				mAllTricepWorkoutsList.add(workoutName);
+				break;
+			case "Legs":
+				mAllLegWorkoutsList.add(workoutName);
+				break;
+		}
 	}
 
 	@Override
