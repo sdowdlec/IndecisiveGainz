@@ -19,7 +19,7 @@ public class TrackedWorkout extends Workout
 	 * @param weight
 	 * @param dateRecorded
 	 */
-	public TrackedWorkout(int id, String workoutName, String muscleGroup, int reps, double weight, String dateRecorded)
+	public TrackedWorkout(int id, String muscleGroup, String workoutName, int reps, double weight, String dateRecorded)
 	{
 		super(id, workoutName, muscleGroup);
 		mReps = reps;
@@ -99,7 +99,7 @@ public class TrackedWorkout extends Workout
 	{
 		String[] dateData = mDateRecorded.split("\\.");
 		String formattedDate = dateData[1] + "/" + dateData[2] + "/" + dateData[0];
-		return "Reps: " + mReps + "\t\t\tWeight: " + mWeight + "\t\t\t" + formattedDate;
+		return mReps + "\t\t\t\t" + mWeight + " lbs" + "\t\t\t\t\t" + formattedDate;
 	}
 	
 	

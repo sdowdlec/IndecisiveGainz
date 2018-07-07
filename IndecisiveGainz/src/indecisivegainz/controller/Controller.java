@@ -231,11 +231,9 @@ public class Controller implements AutoCloseable
 		if(mCurrentlyViewedTrackedWorkoutList.size() != 0)
 			mCurrentlyViewedTrackedWorkoutList.clear();
 		
-		ResultSet trackedWorkouts;
-		
 		try 
 		{
-			trackedWorkouts = mTrackedWorkoutsDB.getRecordsOnField(TRACKED_WORKOUTS_FIELD_NAMES[2], workoutName);
+			ResultSet trackedWorkouts = mTrackedWorkoutsDB.getRecordsOnField(TRACKED_WORKOUTS_FIELD_NAMES[2], workoutName);
 				
 			while(trackedWorkouts.next())
 			{
@@ -246,7 +244,7 @@ public class Controller implements AutoCloseable
 				double weight = trackedWorkouts.getDouble(TRACKED_WORKOUTS_FIELD_NAMES[4]);
 				String dateRecorded = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[5]);
 						
-				mCurrentlyViewedTrackedWorkoutList.add(new TrackedWorkout(id, name, muscleGroup, reps, weight, dateRecorded));
+				mCurrentlyViewedTrackedWorkoutList.add(new TrackedWorkout(id, muscleGroup, name, reps, weight, dateRecorded));
 				++createdRecords;
 			}
 		} 
@@ -326,9 +324,9 @@ public class Controller implements AutoCloseable
 		{
 			try
 			{
-				String[] values = { workoutName, muscleGroup };
+				String[] values = { muscleGroup, workoutName };
 				int id = mWorkoutsDB.createRecord(Arrays.copyOfRange(WORKOUTS_FIELD_NAMES, 1, WORKOUTS_FIELD_NAMES.length), values);
-				mAllWorkoutsList.add(new Workout(id, workoutName, muscleGroup));
+				mAllWorkoutsList.add(new Workout(id, muscleGroup, workoutName));
 				addWorkoutToCorrectWorkoutList(workoutName, muscleGroup);
 				return true;
 			}
@@ -407,6 +405,18 @@ public class Controller implements AutoCloseable
 			return false;
 		}
 		return true;
+	}
+	
+	public String getPersonalRecordFromHistory()
+	{
+		double pr = 0.0;
+		for(TrackedWorkout tw : mCurrentlyViewedTrackedWorkoutList)
+		{
+			if(tw.getWeight() > pr)
+				pr = tw.getWeight();
+		}
+		
+		return (pr == 0.0) ? "N/A" : pr + " lbs";
 	}
 	
 	@Override

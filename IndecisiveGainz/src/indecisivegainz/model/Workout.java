@@ -15,7 +15,7 @@ public class Workout
 	 * @param workoutName
 	 * @param muscleGroup
 	 */
-	public Workout(int id, String workoutName, String muscleGroup)
+	public Workout(int id, String muscleGroup, String workoutName)
 	{
 		mId = id;
 		mWorkoutName = workoutName;

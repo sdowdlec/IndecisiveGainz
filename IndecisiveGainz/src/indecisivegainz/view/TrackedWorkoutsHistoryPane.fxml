@@ -20,9 +20,6 @@
          </padding>
       </Label>
    </top>
-   <center>
-      <ListView fx:id="historyLV" onMouseClicked="#selectTrackedWorkout" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </center>
    <bottom>
       <GridPane prefHeight="50.0" prefWidth="601.0" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -50,4 +47,36 @@
          </children>
       </GridPane>
    </bottom>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <GridPane prefHeight="47.0" prefWidth="601.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="197.0" minWidth="10.0" prefWidth="108.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="246.0" minWidth="10.0" prefWidth="155.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="226.0" minWidth="10.0" prefWidth="168.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="162.0" minWidth="10.0" prefWidth="105.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="157.0" minWidth="10.0" prefWidth="55.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Reps" />
+                  <Label text="Weight" GridPane.columnIndex="1" />
+                  <Label text="Date Recorded" GridPane.columnIndex="2" />
+                  <Label text="Personal Record: " GridPane.columnIndex="3" />
+                  <Label fx:id="prLabel" text="Label" textFill="#1eff00" GridPane.columnIndex="4">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" />
+               </VBox.margin>
+            </GridPane>
+            <ListView fx:id="historyLV" onMouseClicked="#selectTrackedWorkout" prefHeight="400.0" prefWidth="601.0" />
+         </children>
+      </VBox>
+   </center>
 </BorderPane>

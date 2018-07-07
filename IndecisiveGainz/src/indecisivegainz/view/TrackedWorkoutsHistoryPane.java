@@ -21,6 +21,8 @@ public class TrackedWorkoutsHistoryPane implements Initializable
 	@FXML
 	private Label workoutNameLabel;
 	@FXML
+	private Label prLabel;
+	@FXML
 	private ListView<TrackedWorkout> historyLV;
 	@FXML
 	private Button backButton;
@@ -55,7 +57,9 @@ public class TrackedWorkoutsHistoryPane implements Initializable
 	public boolean deleteFromHistory() 
 	{
 		deleteButton.setDisable(true);
-		return controller.deleteTrackedWorkoutFromHistory(selectedItem);
+		boolean isDeleted = controller.deleteTrackedWorkoutFromHistory(selectedItem);
+		prLabel.setText(controller.getPersonalRecordFromHistory());
+		return isDeleted;
 	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
@@ -64,5 +68,6 @@ public class TrackedWorkoutsHistoryPane implements Initializable
 		controller.initializeTrackedWorkoutsHistoryList(WorkoutsPane.getSelectedWorkout());
 		historyLV.setItems(controller.getTrackedHistoryList());
 		deleteButton.setDisable(true);
+		prLabel.setText(controller.getPersonalRecordFromHistory());
 	}
 }
