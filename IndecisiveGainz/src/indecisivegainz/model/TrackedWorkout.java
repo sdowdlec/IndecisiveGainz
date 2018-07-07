@@ -27,6 +27,16 @@ public class TrackedWorkout extends Workout
 		mDateRecorded = dateRecorded;
 	}
 	
+	public int getId()
+	{
+		return mId;
+	}
+	
+	public void setId(int newId)
+	{
+		mId = newId;
+	}
+	
 	/**
 	 * 
 	 * @return

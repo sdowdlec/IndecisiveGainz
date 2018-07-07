@@ -392,6 +392,21 @@ public class Controller implements AutoCloseable
 		}
 	}
 	
+	public boolean deleteTrackedWorkoutFromHistory(TrackedWorkout selectedItem)
+	{
+		try
+		{
+			mCurrentlyViewedTrackedWorkoutList.remove(selectedItem);
+			mTrackedWorkoutsDB.deleteRecord(String.valueOf(selectedItem.getId()));
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
 	@Override
 	public void close() throws Exception 
 	{

@@ -21,7 +21,7 @@
       </Label>
    </top>
    <center>
-      <ListView fx:id="historyLV" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <ListView fx:id="historyLV" onMouseClicked="#selectTrackedWorkout" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
       <GridPane prefHeight="50.0" prefWidth="601.0" BorderPane.alignment="CENTER">
