@@ -87,12 +87,9 @@ public class TrackedWorkout extends Workout
 	@Override
 	public String toString() 
 	{
-		// TODO Fix the formatting
-		// 2018.07.07.01.39.55
-		//String[] dateData = mDateRecorded.split(".");
-		//System.out.println(dateData.length);
-		//String formattedDate = dateData[1] + "/" + dateData[2] + "/" + dateData[0];
-		return mMuscleGroup + "\t\t\t" + mWorkoutName + "\t\tReps: " + mReps + "\t\tWeight: " + mWeight + "\t\t" + mDateRecorded;
+		String[] dateData = mDateRecorded.split("\\.");
+		String formattedDate = dateData[1] + "/" + dateData[2] + "/" + dateData[0];
+		return "Reps: " + mReps + "\t\t\tWeight: " + mWeight + "\t\t\t" + formattedDate;
 	}
 	
 	

@@ -227,27 +227,30 @@ public class Controller implements AutoCloseable
 	{
 		// "id", "muscle_group", "workout_name", "weight", "reps", "date_recorded"
 		int createdRecords = 0;
-		ResultSet trackedWorkouts;
-		try 
+		if(mCurrentlyViewedTrackedWorkoutList.size() == 0)
 		{
-			trackedWorkouts = theInstance.mTrackedWorkoutsDB.getRecordsOnField(TRACKED_WORKOUTS_FIELD_NAMES[2], workoutName);
-			
-			while(trackedWorkouts.next())
+			ResultSet trackedWorkouts;
+			try 
 			{
-				int id = trackedWorkouts.getInt(TRACKED_WORKOUTS_FIELD_NAMES[0]);
-				String muscleGroup = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[1]);
-				String name = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[2]);
-				int reps = trackedWorkouts.getInt(TRACKED_WORKOUTS_FIELD_NAMES[3]);
-				double weight = trackedWorkouts.getDouble(TRACKED_WORKOUTS_FIELD_NAMES[4]);
-				String dateRecorded = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[5]);
-					
-				theInstance.mCurrentlyViewedTrackedWorkoutList.add(new TrackedWorkout(id, name, muscleGroup, reps, weight, dateRecorded));
-				++createdRecords;
+				trackedWorkouts = mTrackedWorkoutsDB.getRecordsOnField(TRACKED_WORKOUTS_FIELD_NAMES[2], workoutName);
+				
+				while(trackedWorkouts.next())
+				{
+					int id = trackedWorkouts.getInt(TRACKED_WORKOUTS_FIELD_NAMES[0]);
+					String muscleGroup = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[1]);
+					String name = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[2]);
+					int reps = trackedWorkouts.getInt(TRACKED_WORKOUTS_FIELD_NAMES[3]);
+					double weight = trackedWorkouts.getDouble(TRACKED_WORKOUTS_FIELD_NAMES[4]);
+					String dateRecorded = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[5]);
+						
+					mCurrentlyViewedTrackedWorkoutList.add(new TrackedWorkout(id, name, muscleGroup, reps, weight, dateRecorded));
+					++createdRecords;
+				}
+			} 
+			catch (SQLException e) 
+			{
+				e.printStackTrace();
 			}
-		} 
-		catch (SQLException e) 
-		{
-			e.printStackTrace();
 		}
 		
 		return createdRecords;
