@@ -223,28 +223,39 @@ public class Controller implements AutoCloseable
 	 * @return The number of records that were added to the list
 	 * @throws SQLException
 	 */
-	public int initializeViewedTrackedWorkoutsList(String workoutName) throws SQLException
+	public int initializeTrackedWorkoutsHistoryList(String workoutName)
 	{
+		// "id", "muscle_group", "workout_name", "weight", "reps", "date_recorded"
 		int createdRecords = 0;
-		ResultSet trackedWorkouts = theInstance.mTrackedWorkoutsDB.getAllRecords();
-		
-		while(trackedWorkouts.next())
+		ResultSet trackedWorkouts;
+		try 
 		{
-			String name = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[1]);
-			if(name.equalsIgnoreCase(workoutName))
+			trackedWorkouts = theInstance.mTrackedWorkoutsDB.getRecordsOnField(TRACKED_WORKOUTS_FIELD_NAMES[2], workoutName);
+			
+			while(trackedWorkouts.next())
 			{
 				int id = trackedWorkouts.getInt(TRACKED_WORKOUTS_FIELD_NAMES[0]);
-				String muscleGroup = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[2]);
+				String muscleGroup = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[1]);
+				String name = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[2]);
 				int reps = trackedWorkouts.getInt(TRACKED_WORKOUTS_FIELD_NAMES[3]);
 				double weight = trackedWorkouts.getDouble(TRACKED_WORKOUTS_FIELD_NAMES[4]);
 				String dateRecorded = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[5]);
-				
+					
 				theInstance.mCurrentlyViewedTrackedWorkoutList.add(new TrackedWorkout(id, name, muscleGroup, reps, weight, dateRecorded));
 				++createdRecords;
 			}
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
 		}
 		
 		return createdRecords;
+	}
+	
+	public ObservableList<TrackedWorkout> getTrackedHistoryList()
+	{
+		return mCurrentlyViewedTrackedWorkoutList;
 	}
 	
 	public ObservableList<Workout> getAllWorkoutsList()
@@ -363,7 +374,7 @@ public class Controller implements AutoCloseable
 			Integer.valueOf(reps);
 			Double.valueOf(weight);
 			
-			String[] values = { workoutName, muscleGroup, reps, weight, dateRecorded };
+			String[] values = { muscleGroup, workoutName, reps, weight, dateRecorded };
 			mTrackedWorkoutsDB.createRecord(Arrays.copyOfRange(TRACKED_WORKOUTS_FIELD_NAMES, 1, TRACKED_WORKOUTS_FIELD_NAMES.length), values);
 			
 			return true;
@@ -377,7 +388,7 @@ public class Controller implements AutoCloseable
 			return false;
 		}
 	}
-
+	
 	@Override
 	public void close() throws Exception 
 	{

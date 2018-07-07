@@ -49,8 +49,7 @@ public class WorkoutsPane implements Initializable
 			}
 			else
 			{
-				// TODO Create a workout history pane and load it here
-				//ViewNavigator.loadPane("");
+				ViewNavigator.loadPane("TrackedWorkoutsHistoryPane.fxml");
 			}
 		}
 	}

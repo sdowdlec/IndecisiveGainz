@@ -37,7 +37,6 @@ public class TrackWorkoutPane implements Initializable
 	@FXML
 	public void trackWorkout() 
 	{
-		// TODO 
 		String workoutName = WorkoutsPane.getSelectedWorkout();
 		String muscleGroup = MuscleGroupsPane.getSelectedMuscleGroup();
 		String reps = repsTF.getText();

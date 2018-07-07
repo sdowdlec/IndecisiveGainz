@@ -66,6 +66,12 @@ public class DBModel implements AutoCloseable
 		return mStmt.executeQuery(selectSQL);
 	}
 	
+	public ResultSet getRecordsOnField(String fieldName, String searchValue) throws SQLException
+	{
+		String selectSQL = "SELECT * FROM " + mTableName + " WHERE " + fieldName + " = '" + searchValue + "'";
+		return mStmt.executeQuery(selectSQL);
+	}
+	
 	/**
 	 * 
 	 * @param key
