@@ -8,19 +8,23 @@ public class TrackedWorkout extends Workout
 {
 	private int mReps;
 	private double mWeight;
+	private String mDateRecorded;
 	
 	/**
 	 * 
+	 * @param id
 	 * @param workoutName
 	 * @param muscleGroup
 	 * @param reps
 	 * @param weight
+	 * @param dateRecorded
 	 */
-	public TrackedWorkout(int id, String workoutName, String muscleGroup, int reps, double weight)
+	public TrackedWorkout(int id, String workoutName, String muscleGroup, int reps, double weight, String dateRecorded)
 	{
 		super(id, workoutName, muscleGroup);
 		mReps = reps;
 		mWeight = weight;
+		mDateRecorded = dateRecorded;
 	}
 	
 	/**
@@ -57,5 +61,23 @@ public class TrackedWorkout extends Workout
 	public void setWeight(double weight)
 	{
 		mWeight = weight;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getDateRecorded()
+	{
+		return mDateRecorded;
+	}
+	
+	/**
+	 * 
+	 * @param newDate
+	 */
+	public void setDateRecorded(String newDate)
+	{
+		mDateRecorded = newDate;
 	}
 }

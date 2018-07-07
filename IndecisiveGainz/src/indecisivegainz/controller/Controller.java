@@ -52,8 +52,8 @@ public class Controller implements AutoCloseable
 	private static final String WORKOUTS_DATA_FILE = "Default Workouts.csv";
 	// TrackedWorkouts database constants
 	private static final String TRACKED_WORKOUTS_TABLE_NAME = "tracked_workouts";
-	private static final String[] TRACKED_WORKOUTS_FIELD_NAMES =  { "id", "muscle_group", "workout_name", "weight", "reps" };
-	private static final String[] TRACKED_WORKOUTS_FIELD_TYPES = { "INTEGER PRIMARY KEY", "TEXT", "TEXT", "REAL", "INTEGER" };
+	private static final String[] TRACKED_WORKOUTS_FIELD_NAMES =  { "id", "muscle_group", "workout_name", "weight", "reps", "date_recorded" };
+	private static final String[] TRACKED_WORKOUTS_FIELD_TYPES = { "INTEGER PRIMARY KEY", "TEXT", "TEXT", "REAL", "INTEGER", "TEXT" };
 	
 	/** 
 	 * 
@@ -237,8 +237,9 @@ public class Controller implements AutoCloseable
 				String muscleGroup = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[2]);
 				int reps = trackedWorkouts.getInt(TRACKED_WORKOUTS_FIELD_NAMES[3]);
 				double weight = trackedWorkouts.getDouble(TRACKED_WORKOUTS_FIELD_NAMES[4]);
+				String dateRecorded = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[5]);
 				
-				theInstance.mCurrentlyViewedTrackedWorkoutList.add(new TrackedWorkout(id, name, muscleGroup, reps, weight));
+				theInstance.mCurrentlyViewedTrackedWorkoutList.add(new TrackedWorkout(id, name, muscleGroup, reps, weight, dateRecorded));
 				++createdRecords;
 			}
 		}
@@ -253,35 +254,43 @@ public class Controller implements AutoCloseable
 	
 	public ObservableList<String> getAllMuscleGroups()
 	{
+		FXCollections.sort(mAllMuscleGroupsList);
 		return mAllMuscleGroupsList;
 	}
 	
 	public ObservableList<String> getAllShoulderWorkoutsList()
 	{
+		FXCollections.sort(mAllShoulderWorkoutsList);
 		return mAllShoulderWorkoutsList;
 	}
 	public ObservableList<String> getAllChestWorkoutsList()
 	{
+		FXCollections.sort(mAllChestWorkoutsList);
 		return mAllChestWorkoutsList;
 	}
 	public ObservableList<String> getAllAbWorkoutsList()
 	{
+		FXCollections.sort(mAllAbWorkoutsList);
 		return mAllAbWorkoutsList;
 	}
 	public ObservableList<String> getAllBicepWorkoutsList()
 	{
+		FXCollections.sort(mAllBicepWorkoutsList);
 		return mAllBicepWorkoutsList;
 	}
 	public ObservableList<String> getAllBackWorkoutsList()
 	{
+		FXCollections.sort(mAllBackWorkoutsList);
 		return mAllBackWorkoutsList;
 	}
 	public ObservableList<String> getAllTricepWorkoutsList()
 	{
+		FXCollections.sort(mAllTricepWorkoutsList);
 		return mAllTricepWorkoutsList;
 	}
 	public ObservableList<String> getAllLegWorkoutsList()
 	{
+		FXCollections.sort(mAllLegWorkoutsList);
 		return mAllLegWorkoutsList;
 	}
 	
@@ -341,6 +350,31 @@ public class Controller implements AutoCloseable
 			case "Legs":
 				mAllLegWorkoutsList.add(workoutName);
 				break;
+		}
+	}
+	
+	public boolean trackNewWorkout(String workoutName, String muscleGroup, String reps, String weight, String dateRecorded)
+	{
+		if(reps.equals("") || weight.equals(""))
+			return false;
+		
+		try
+		{
+			Integer.valueOf(reps);
+			Double.valueOf(weight);
+			
+			String[] values = { workoutName, muscleGroup, reps, weight, dateRecorded };
+			mTrackedWorkoutsDB.createRecord(Arrays.copyOfRange(TRACKED_WORKOUTS_FIELD_NAMES, 1, TRACKED_WORKOUTS_FIELD_NAMES.length), values);
+			
+			return true;
+		}
+		catch(NumberFormatException e)
+		{
+			return false;
+		}
+		catch(SQLException e)
+		{
+			return false;
 		}
 	}
 

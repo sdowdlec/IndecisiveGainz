@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -24,7 +26,16 @@
    <top>
       <VBox alignment="TOP_CENTER" prefHeight="97.0" prefWidth="177.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="67.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="67.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../images/Logo.png" />
+               </image>
+               <effect>
+                  <DropShadow color="#ffffff5b" height="8.9" radius="3.95" spread="0.03" width="8.9" />
+               </effect>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin></ImageView>
             <Label text="Indecisive Gainz" textFill="RED">
                <font>
                   <Font size="14.0" />
