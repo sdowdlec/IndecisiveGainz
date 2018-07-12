@@ -47,15 +47,15 @@ public class ViewNavigator
 			{
 				mainStage.setWidth(400);
 				mainStage.setHeight(529);
-				mainStage.setResizable(false);
+				//mainStage.setResizable(false);
 			}
 			else
 			{
 				mainStage.setWidth(800);
 				mainStage.setHeight(500);
-				mainStage.setResizable(true);
+				//mainStage.setResizable(true);
 			}
-			
+			mainStage.setResizable(false);
 			mainStage.show();
 		}
 		catch(IOException e)
@@ -78,8 +78,8 @@ public class ViewNavigator
 	public static void loadMainSceneDefault()
 	{
 		menuContainer = new HBox();
-		mainStage.setResizable(true);
-		mainStage.setWidth(800);
+		mainStage.setResizable(false);
+		mainStage.setWidth(786);
 		mainStage.setHeight(500);
 		loadPane("MainMenuBar.fxml");
 		Scene scene = new Scene(menuContainer);

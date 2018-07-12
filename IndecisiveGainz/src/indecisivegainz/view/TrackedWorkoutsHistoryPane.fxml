@@ -39,7 +39,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="deleteButton" maxHeight="50.0" mnemonicParsing="false" onAction="#deleteFromHistory" prefHeight="50.0" style="-fx-background-radius: 0; -fx-background-color: transparent; -fx-border-color: black;" text="Delete From History" GridPane.columnIndex="1">
+            <Button fx:id="deleteButton" maxHeight="50.0" mnemonicParsing="false" onAction="#deleteFromHistory" prefHeight="50.0" style="-fx-background-radius: 0; -fx-background-color: red; -fx-border-color: transparent;" text="Delete From History" textFill="WHITE" GridPane.columnIndex="1">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

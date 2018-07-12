@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
 
 import indecisivegainz.model.*;
@@ -35,6 +36,7 @@ public class Controller implements AutoCloseable
 	*/
 	private ObservableList<TrackedWorkout> mCurrentlyViewedTrackedWorkoutList;
 	private ObservableList<String> mAllMuscleGroupsList;
+	private ObservableList<String> mGeneratedRoutineList;
 	
 	private ObservableList<String> mAllShoulderWorkoutsList;
 	private ObservableList<String> mAllChestWorkoutsList;
@@ -67,6 +69,7 @@ public class Controller implements AutoCloseable
 			theInstance.mCurrentlyViewedTrackedWorkoutList = FXCollections.observableArrayList();
 			theInstance.mAllWorkoutsList = FXCollections.observableArrayList();
 			theInstance.mAllMuscleGroupsList = FXCollections.observableArrayList();
+			theInstance.mGeneratedRoutineList = FXCollections.observableArrayList();
 			theInstance.mAllShoulderWorkoutsList = FXCollections.observableArrayList();
 			theInstance.mAllChestWorkoutsList = FXCollections.observableArrayList();
 			theInstance.mAllAbWorkoutsList = FXCollections.observableArrayList();
@@ -417,6 +420,47 @@ public class Controller implements AutoCloseable
 		}
 		
 		return (pr == 0.0) ? "N/A" : pr + " lbs";
+	}
+	
+	public void generateRoutine(String[] muscleGroups, int[] numUniqueWorkouts)
+	{
+		// TODO Complete the function
+		for(int i = 0; i < muscleGroups.length; i++)
+		{
+			switch(muscleGroups[i])
+			{
+				case "Shoulders":
+					for(int j = 0; j < numUniqueWorkouts[i]; j++)
+					{
+						int generatedIndex = new Random().nextInt(mAllShoulderWorkoutsList.size());
+						String selectedWorkout = mAllShoulderWorkoutsList.get(generatedIndex);
+						
+						if(!mGeneratedRoutineList.contains(selectedWorkout))
+							mGeneratedRoutineList.add(selectedWorkout);
+						else
+							j--;
+					}
+					break;
+				case "Chest":
+
+					break;
+				case "Abs":
+
+					break;
+				case "Back":
+
+					break;
+				case "Biceps":
+
+					break;
+				case "Triceps":
+
+					break;
+				case "Legs":
+
+					break;
+			}
+		}
 	}
 	
 	@Override
