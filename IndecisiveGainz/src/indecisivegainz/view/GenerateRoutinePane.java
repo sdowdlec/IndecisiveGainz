@@ -50,6 +50,7 @@ public class GenerateRoutinePane implements Initializable
 			textFields[i] = null;
 			buttons[i] = null;
 		}
+		
 		numMenuItems = 1;
 		Button b = createAddItemButton();
 		buttons[numMenuItems - 1] = b;
