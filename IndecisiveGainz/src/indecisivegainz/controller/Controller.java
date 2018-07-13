@@ -424,12 +424,16 @@ public class Controller implements AutoCloseable
 	
 	public void generateRoutine(String[] muscleGroups, int[] numUniqueWorkouts)
 	{
-		// TODO Complete the function
+		if(mGeneratedRoutineList.size() > 0)
+			mGeneratedRoutineList.clear();
+		
 		for(int i = 0; i < muscleGroups.length; i++)
 		{
 			switch(muscleGroups[i])
 			{
 				case "Shoulders":
+					if(numUniqueWorkouts[i] > mAllShoulderWorkoutsList.size())
+						numUniqueWorkouts[i] = mAllShoulderWorkoutsList.size();
 					for(int j = 0; j < numUniqueWorkouts[i]; j++)
 					{
 						int generatedIndex = new Random().nextInt(mAllShoulderWorkoutsList.size());
@@ -442,25 +446,96 @@ public class Controller implements AutoCloseable
 					}
 					break;
 				case "Chest":
-
+					if(numUniqueWorkouts[i] > mAllChestWorkoutsList.size())
+						numUniqueWorkouts[i] = mAllChestWorkoutsList.size();
+					for(int j = 0; j < numUniqueWorkouts[i]; j++)
+					{
+						int generatedIndex = new Random().nextInt(mAllChestWorkoutsList.size());
+						String selectedWorkout = mAllChestWorkoutsList.get(generatedIndex);
+						
+						if(!mGeneratedRoutineList.contains(selectedWorkout))
+							mGeneratedRoutineList.add(selectedWorkout);
+						else
+							j--;
+					}
 					break;
 				case "Abs":
-
+					if(numUniqueWorkouts[i] > mAllAbWorkoutsList.size())
+						numUniqueWorkouts[i] = mAllAbWorkoutsList.size();
+					for(int j = 0; j < numUniqueWorkouts[i]; j++)
+					{
+						int generatedIndex = new Random().nextInt(mAllAbWorkoutsList.size());
+						String selectedWorkout = mAllAbWorkoutsList.get(generatedIndex);
+						
+						if(!mGeneratedRoutineList.contains(selectedWorkout))
+							mGeneratedRoutineList.add(selectedWorkout);
+						else
+							j--;
+					}
 					break;
 				case "Back":
-
+					if(numUniqueWorkouts[i] > mAllBackWorkoutsList.size())
+						numUniqueWorkouts[i] = mAllBackWorkoutsList.size();
+					for(int j = 0; j < numUniqueWorkouts[i]; j++)
+					{
+						int generatedIndex = new Random().nextInt(mAllBackWorkoutsList.size());
+						String selectedWorkout = mAllBackWorkoutsList.get(generatedIndex);
+						
+						if(!mGeneratedRoutineList.contains(selectedWorkout))
+							mGeneratedRoutineList.add(selectedWorkout);
+						else
+							j--;
+					}
 					break;
 				case "Biceps":
-
+					if(numUniqueWorkouts[i] > mAllBicepWorkoutsList.size())
+						numUniqueWorkouts[i] = mAllBicepWorkoutsList.size();
+					for(int j = 0; j < numUniqueWorkouts[i]; j++)
+					{
+						int generatedIndex = new Random().nextInt(mAllBicepWorkoutsList.size());
+						String selectedWorkout = mAllBicepWorkoutsList.get(generatedIndex);
+						
+						if(!mGeneratedRoutineList.contains(selectedWorkout))
+							mGeneratedRoutineList.add(selectedWorkout);
+						else
+							j--;
+					}
 					break;
 				case "Triceps":
-
+					if(numUniqueWorkouts[i] > mAllTricepWorkoutsList.size())
+						numUniqueWorkouts[i] = mAllTricepWorkoutsList.size();
+					for(int j = 0; j < numUniqueWorkouts[i]; j++)
+					{
+						int generatedIndex = new Random().nextInt(mAllTricepWorkoutsList.size());
+						String selectedWorkout = mAllTricepWorkoutsList.get(generatedIndex);
+						
+						if(!mGeneratedRoutineList.contains(selectedWorkout))
+							mGeneratedRoutineList.add(selectedWorkout);
+						else
+							j--;
+					}
 					break;
 				case "Legs":
-
+					if(numUniqueWorkouts[i] > mAllLegWorkoutsList.size())
+						numUniqueWorkouts[i] = mAllLegWorkoutsList.size();
+					for(int j = 0; j < numUniqueWorkouts[i]; j++)
+					{
+						int generatedIndex = new Random().nextInt(mAllLegWorkoutsList.size());
+						String selectedWorkout = mAllLegWorkoutsList.get(generatedIndex);
+						
+						if(!mGeneratedRoutineList.contains(selectedWorkout))
+							mGeneratedRoutineList.add(selectedWorkout);
+						else
+							j--;
+					}
 					break;
 			}
 		}
+	}
+	
+	public ObservableList<String> getGeneratedRoutines()
+	{
+		return mGeneratedRoutineList;
 	}
 	
 	@Override

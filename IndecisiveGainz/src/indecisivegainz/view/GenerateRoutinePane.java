@@ -9,6 +9,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import indecisivegainz.controller.Controller;
@@ -42,24 +43,43 @@ public class GenerateRoutinePane implements Initializable
 	@FXML
 	public void generateRoutineButton() 
 	{
-		boolean isSuccess = true;
+		// TODO FIX CRASH ON SECOND CALL OF GENERATION
+		String[] muscleGroups = new String[numMenuItems];
+		int[] numUniqueWorkouts = new int[numMenuItems];
+		boolean isGeneratable = true;
+		
 		for(int i = 0; i < numMenuItems; i++)
 		{
-			if(comboBoxes[i].getSelectionModel().getSelectedIndex() != -1 && !textFields[i].getText().equals(""))
+			if(comboBoxes[i].getSelectionModel().getSelectedIndex() == -1 || textFields[i].getText().equals(""))
 			{
-				statusMessage.setText("Routine Generated Successfully");
-				statusMessage.setTextFill(Color.GREEN);
+				isGeneratable = false;
+				break;
 			}
-			else
-			{
-				isSuccess = false;
-				i = numMenuItems;
+			
+			try
+			{ 
+				Integer.valueOf(textFields[i].getText()); 
+				muscleGroups[i] = comboBoxes[i].getSelectionModel().getSelectedItem();
+				numUniqueWorkouts[i] = Integer.valueOf(textFields[i].getText());
 			}
+			catch(NumberFormatException e) 
+			{ 
+				isGeneratable = false; 
+				break;
+			}
+			
 		}
-		if(isSuccess)
+		
+		if(isGeneratable)
 		{
 			statusMessage.setText("Routine Generated Successfully");
 			statusMessage.setTextFill(Color.GREEN);
+			
+			controller.generateRoutine(muscleGroups, numUniqueWorkouts);
+			for(String s : controller.getGeneratedRoutines())
+			{
+				System.out.println(s);
+			}
 			
 			forwardButton.setDisable(false);
 			forwardButton.setVisible(true);
