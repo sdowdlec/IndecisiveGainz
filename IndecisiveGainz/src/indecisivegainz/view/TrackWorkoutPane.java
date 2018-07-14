@@ -32,6 +32,8 @@ public class TrackWorkoutPane implements Initializable
 	private Button trackWorkoutButton;
 	@FXML
 	private Button clearButton;
+	
+	private static boolean isViewGeneratedPath = false;
 
 	// Event Listener on Button[#trackWorkoutButton].onAction
 	@FXML
@@ -65,11 +67,19 @@ public class TrackWorkoutPane implements Initializable
 		repsTF.clear();
 		statusMessage.setVisible(false);
 	}
-	
-	@FXML
-	public void loadWorkoutsPane()
+	public static void setIsViewGeneratedPath(boolean isViewPath)
 	{
-		ViewNavigator.loadPane("WorkoutsPane.fxml");
+		isViewGeneratedPath = isViewPath;
+	}
+	@FXML
+	public void back()
+	{
+		if(isViewGeneratedPath)
+			ViewNavigator.loadPane("ViewGeneratedRoutinePane.fxml");
+		else
+			ViewNavigator.loadPane("WorkoutsPane.fxml");
+		
+		isViewGeneratedPath = false;
 	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 

@@ -43,7 +43,8 @@ public class GenerateRoutinePane implements Initializable
 	@FXML
 	public void generateRoutineButton() 
 	{
-		// TODO FIX CRASH ON SECOND CALL OF GENERATION
+		// TODO add something to keep track in case the user wanted to generate more workouts than there are in the list
+		// We could make a message show up at the bottom of the generated routines pane
 		String[] muscleGroups = new String[numMenuItems];
 		int[] numUniqueWorkouts = new int[numMenuItems];
 		boolean isGeneratable = true;
@@ -76,10 +77,12 @@ public class GenerateRoutinePane implements Initializable
 			statusMessage.setTextFill(Color.GREEN);
 			
 			controller.generateRoutine(muscleGroups, numUniqueWorkouts);
+			/*
 			for(String s : controller.getGeneratedRoutines())
 			{
 				System.out.println(s);
 			}
+			*/
 			
 			forwardButton.setDisable(false);
 			forwardButton.setVisible(true);
@@ -184,8 +187,9 @@ public class GenerateRoutinePane implements Initializable
 	@FXML
 	public void loadViewGeneratedRoutinePane()
 	{
-		// TODO ViewNavigator.loadPane("");
+		ViewNavigator.loadPane("ViewGeneratedRoutinePane.fxml");
 	}
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{

@@ -58,6 +58,11 @@ public class WorkoutsPane implements Initializable
 	{
 		return selectedWorkout;
 	}
+	
+	public static void setSelectedWorkout(String workout)
+	{
+		selectedWorkout = workout;
+	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 

@@ -533,7 +533,7 @@ public class Controller implements AutoCloseable
 		}
 	}
 	
-	public ObservableList<String> getGeneratedRoutines()
+	public ObservableList<String> getGeneratedRoutine()
 	{
 		return mGeneratedRoutineList;
 	}
