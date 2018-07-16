@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -422,6 +423,11 @@ public class Controller implements AutoCloseable
 		return (pr == 0.0) ? "N/A" : pr + " lbs";
 	}
 	
+	/**
+	 * 
+	 * @param muscleGroups
+	 * @param numUniqueWorkouts
+	 */
 	public void generateRoutine(String[] muscleGroups, int[] numUniqueWorkouts)
 	{
 		if(mGeneratedRoutineList.size() > 0)
@@ -536,6 +542,23 @@ public class Controller implements AutoCloseable
 	public ObservableList<String> getGeneratedRoutine()
 	{
 		return mGeneratedRoutineList;
+	}
+	
+	/**
+	 * Check if an array contains duplicates in O(n) complexity.
+	 * Sets cannot contain duplicates so if you try to add a duplicate it will return false.
+	 * @param list
+	 * @return
+	 */
+	public boolean containsDuplicates(String[] list)
+	{
+		HashSet<String> set = new HashSet<>();
+		
+		for(String element : list)
+			if(set.add(element) == false)
+				return true;
+		
+		return false;
 	}
 	
 	@Override

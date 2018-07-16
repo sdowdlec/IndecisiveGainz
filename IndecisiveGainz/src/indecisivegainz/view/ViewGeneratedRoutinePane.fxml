@@ -39,13 +39,20 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="trackWorkoutButton" maxHeight="50.0" maxWidth="150.0" mnemonicParsing="false" onAction="#loadTrackWorkoutPane" prefHeight="50.0" prefWidth="150.0" style="-fx-background-radius: 0;" text="Track Selected Workout" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+            <Button fx:id="trackWorkoutButton" maxHeight="50.0" maxWidth="150.0" mnemonicParsing="false" onAction="#loadTrackWorkoutPane" prefHeight="50.0" prefWidth="150.0" style="-fx-background-radius: 0; -fx-background-color: black;" text="Track Selected Workout" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
          </children>
       </GridPane>
    </bottom>
    <center>
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
+            <HBox fx:id="generatedInfoHBox" prefHeight="36.0" prefWidth="601.0" spacing="20.0">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding></HBox>
             <ListView fx:id="generatedRoutineLV" prefHeight="317.0" prefWidth="601.0" />
             <Label fx:id="messageTF" textFill="#979200">
                <font>

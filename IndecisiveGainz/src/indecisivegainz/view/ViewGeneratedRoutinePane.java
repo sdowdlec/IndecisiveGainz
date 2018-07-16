@@ -2,7 +2,6 @@ package indecisivegainz.view;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import indecisivegainz.controller.Controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 
 public class ViewGeneratedRoutinePane implements Initializable
 {
@@ -25,6 +25,8 @@ public class ViewGeneratedRoutinePane implements Initializable
 	private ListView<String> generatedRoutineLV;
 	@FXML
 	private Label messageTF;
+	@FXML
+	private HBox generatedInfoHBox;
 
 	// Event Listener on Button[#backButton].onAction
 	@FXML
@@ -47,5 +49,11 @@ public class ViewGeneratedRoutinePane implements Initializable
 		messageTF.setVisible(false);
 		messageTF.setText("One or more muscle groups contains fewer workouts than specified.\n"
 						+ "The maximum amount of workouts for than muscle group has been generated instead.");
+		
+		generatedInfoHBox.getChildren().add(new Label("Generated Workouts:\t"));
+		for(int i = 0; i < GenerateRoutinePane.getNumMenuItems(); i++)
+		{
+			generatedInfoHBox.getChildren().add(new Label(GenerateRoutinePane.getMuscleGroups()[i] + " x" + GenerateRoutinePane.getNumUniqueWorkouts()[i]));
+		}
 	}
 }
