@@ -74,6 +74,23 @@ public class DBModel implements AutoCloseable
 	
 	/**
 	 * 
+	 * @param field
+	 * @param condition
+	 * @param conditionField
+	 * @return
+	 * @throws SQLException
+	 */
+	public String getItemOnCondition(String field, String condition, String conditionField) throws SQLException
+	{
+		String selectSQL = "SELECT FROM " + mTableName + " WHERE " + conditionField + " = " + condition;
+		ResultSet rs = mStmt.executeQuery(selectSQL);
+		String value = rs.getString(conditionField);
+		
+		return value;
+	}
+	
+	/**
+	 * 
 	 * @param key
 	 * @return
 	 * @throws SQLException
@@ -113,7 +130,7 @@ public class DBModel implements AutoCloseable
 			return -1;
 
 		StringBuilder insertSQL = new StringBuilder("INSERT INTO ");
-		insertSQL.append(mTableName).append("(");
+		insertSQL.append(mTableName).append(" (");
 		
 		for (int i = 0; i < fields.length; i++)
 			insertSQL.append(fields[i]).append((i < fields.length - 1) ? "," : ") VALUES(");

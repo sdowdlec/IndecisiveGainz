@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import indecisivegainz.model.*;
 /**
  * 
  * @author Sean Dowdle
@@ -29,7 +30,16 @@ public class SignupScene
 	@FXML
 	public void signUp() 
 	{
-		// TODO
+		String username = usernameTF.getText();
+		String password = passwordTF.getText();
+		String confirmedPassword = confirmPasswordTF.getText();
+		
+		boolean wasCreated = Authentication.createAccount(username, password, confirmedPassword);
+		errorLabel.setVisible(true);
+		if(wasCreated)
+			errorLabel.setText("Account created successfuly!");
+		else
+			errorLabel.setText("Unable to create account.\nUsername may be taken or passwords do not match.");
 	}
 	// Event Listener on Button[#backButton].onAction
 	@FXML

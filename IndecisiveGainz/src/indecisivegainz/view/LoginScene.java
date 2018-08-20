@@ -1,5 +1,7 @@
 package indecisivegainz.view;
 
+import indecisivegainz.controller.Controller;
+import indecisivegainz.model.Authentication;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -13,6 +15,8 @@ import javafx.scene.control.CheckBox;
  */
 public class LoginScene 
 {
+	private static Controller controller = Controller.getInstance();
+	
 	@FXML
 	private Label continueAsGuestLabel;
 	@FXML
@@ -32,6 +36,8 @@ public class LoginScene
 	@FXML
 	public void continueAsGuest() 
 	{
+		controller.setCurrentUser(1);
+		controller.initializeWorkoutLists();
 		ViewNavigator.loadMainSceneDefault();
 	}
 	// Event Listener on Label[#signupLabel].onMouseClicked
@@ -50,6 +56,22 @@ public class LoginScene
 	@FXML
 	public void login() 
 	{
-		// TODO
+		String username = usernameTF.getText();
+		String password = passwordTF.getText();
+		
+		boolean isValidLogin = Authentication.authenticateLogin(username, password);
+		if(isValidLogin)
+		{
+			controller.setCurrentUser(Authentication.getUserId(username));
+			System.out.println(controller.getCurrentUser());
+			controller.initializeWorkoutLists();
+			ViewNavigator.loadMainSceneDefault();
+		}
+		else
+		{
+			incorrectCredentialsLabel.setVisible(true);
+			incorrectCredentialsLabel.setText("Invalid login.");
+			System.out.println(controller.getCurrentUser());
+		}
 	}
 }

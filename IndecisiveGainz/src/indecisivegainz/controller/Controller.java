@@ -26,6 +26,9 @@ public class Controller implements AutoCloseable
 	
 	private DBModel mWorkoutsDB;
 	private DBModel mTrackedWorkoutsDB;
+	private DBModel mUsersDB;
+	
+	private int currentUser = 0;
 	
 	private ObservableList<Workout> mAllWorkoutsList;
 	/*
@@ -50,13 +53,17 @@ public class Controller implements AutoCloseable
 	private static final String DB_NAME = "indecisive_gainz.db";
 	// Workouts database constants
 	private static final String WORKOUTS_TABLE_NAME = "workouts";
-	private static final String[] WORKOUTS_FIELD_NAMES =  { "id", "muscle_group", "workout_name" };
-	private static final String[] WORKOUTS_FIELD_TYPES = { "INTEGER PRIMARY KEY", "TEXT", "TEXT" };
+	private static final String[] WORKOUTS_FIELD_NAMES =  { "id", "muscle_group", "workout_name", "user_id" };
+	private static final String[] WORKOUTS_FIELD_TYPES = { "INTEGER PRIMARY KEY", "TEXT", "TEXT", "TEXT" };
 	private static final String WORKOUTS_DATA_FILE = "Default Workouts.csv";
 	// TrackedWorkouts database constants
 	private static final String TRACKED_WORKOUTS_TABLE_NAME = "tracked_workouts";
-	private static final String[] TRACKED_WORKOUTS_FIELD_NAMES =  { "id", "muscle_group", "workout_name", "weight", "reps", "date_recorded" };
-	private static final String[] TRACKED_WORKOUTS_FIELD_TYPES = { "INTEGER PRIMARY KEY", "TEXT", "TEXT", "REAL", "INTEGER", "TEXT" };
+	private static final String[] TRACKED_WORKOUTS_FIELD_NAMES =  { "id", "muscle_group", "workout_name", "weight", "reps", "date_recorded", "user_id" };
+	private static final String[] TRACKED_WORKOUTS_FIELD_TYPES = { "INTEGER PRIMARY KEY", "TEXT", "TEXT", "REAL", "INTEGER", "TEXT", "TEXT" };
+	// Users database constants
+	private static final String USERS_TABLE_NAME = "users";
+	private static final String[] USERS_FIELD_NAMES =  { "id", "username", "hashed_password" };
+	private static final String[] USERS_FIELD_TYPES = { "INTEGER PRIMARY KEY", "TEXT", "TEXT" };
 	
 	/** 
 	 * 
@@ -90,12 +97,14 @@ public class Controller implements AutoCloseable
 				// Workouts
 				theInstance.mWorkoutsDB = new DBModel(DB_NAME, WORKOUTS_TABLE_NAME, WORKOUTS_FIELD_NAMES, WORKOUTS_FIELD_TYPES);
 				theInstance.initializeWorkoutsDBFromFile();
-				theInstance.initializeWorkoutLists();
+				//theInstance.initializeWorkoutLists();
 				theInstance.initializeMuscleGroupsList();
 				
 				// TrackedWorkouts
 				theInstance.mTrackedWorkoutsDB = new DBModel(DB_NAME, TRACKED_WORKOUTS_TABLE_NAME, TRACKED_WORKOUTS_FIELD_NAMES, TRACKED_WORKOUTS_FIELD_TYPES);
 				// theInstance.initializeTrackedWorkoutsList(theInstance.mTrackedWorkoutsDB.getAllRecords());
+				theInstance.mUsersDB = new DBModel(DB_NAME, USERS_TABLE_NAME, USERS_FIELD_NAMES, USERS_FIELD_TYPES);
+				theInstance.initializeUsersDB();
 				
 			}
 			catch(SQLException e)
@@ -126,6 +135,7 @@ public class Controller implements AutoCloseable
 				
 				values[0] = data[0];
 				values[1] = data[1];
+				values[2] = "0";
 				
 				theInstance.mWorkoutsDB.createRecord(Arrays.copyOfRange(WORKOUTS_FIELD_NAMES, 1, WORKOUTS_FIELD_NAMES.length), values);
 				++recordsCreated;
@@ -141,50 +151,85 @@ public class Controller implements AutoCloseable
 		return recordsCreated;
 	}
 	
+	/*
+	 * Initializes the usersDB to have a guest login by default
+	 */
+	private void initializeUsersDB() throws SQLException
+	{
+		if(!(theInstance.mUsersDB.getRecordCount() > 0))
+		{
+			String[] values = { "Guest", null};
+			theInstance.mUsersDB.createRecord(Arrays.copyOfRange(USERS_FIELD_NAMES, 1, USERS_FIELD_NAMES.length), values);
+		}
+	}
+	
 	/**
 	 * Initializes all of the different workouts lists.
 	 * @param workouts The ResultSet containing all of the workouts in the database
 	 * @throws SQLException
 	 */
-	private void initializeWorkoutLists() throws SQLException
+	public void initializeWorkoutLists()
 	{
-		ResultSet workouts = theInstance.mWorkoutsDB.getAllRecords();
-		
-		if(workouts != null)
+		try
 		{
-			while(workouts.next())
+			ResultSet workouts = theInstance.mWorkoutsDB.getAllRecords();
+			
+			if(workouts != null)
 			{
-				int id = workouts.getInt(WORKOUTS_FIELD_NAMES[0]);
-				String muscleGroup = workouts.getString(WORKOUTS_FIELD_NAMES[1]);
-				String workoutName = workouts.getString(WORKOUTS_FIELD_NAMES[2]);
-				
-				switch(muscleGroup)
+				if(!theInstance.mAllWorkoutsList.isEmpty())
 				{
-					case "Shoulders":
-						mAllShoulderWorkoutsList.add(workoutName);
-						break;
-					case "Chest":
-						mAllChestWorkoutsList.add(workoutName);
-						break;
-					case "Abs":
-						mAllAbWorkoutsList.add(workoutName);
-						break;
-					case "Back":
-						mAllBackWorkoutsList.add(workoutName);
-						break;
-					case "Biceps":
-						mAllBicepWorkoutsList.add(workoutName);
-						break;
-					case "Triceps":
-						mAllTricepWorkoutsList.add(workoutName);
-						break;
-					case "Legs":
-						mAllLegWorkoutsList.add(workoutName);
-						break;
+					theInstance.mAllWorkoutsList.clear();
+					theInstance.mAllShoulderWorkoutsList.clear();
+					theInstance.mAllChestWorkoutsList.clear();
+					theInstance.mAllAbWorkoutsList.clear();
+					theInstance.mAllBicepWorkoutsList.clear();
+					theInstance.mAllBackWorkoutsList.clear();
+					theInstance.mAllTricepWorkoutsList.clear();
+					theInstance.mAllLegWorkoutsList.clear();
 				}
 				
-				theInstance.mAllWorkoutsList.add(new Workout(id, muscleGroup, workoutName));
+				while(workouts.next())
+				{
+					String userId = workouts.getString("user_id");
+					if(userId.equals("0") || userId.equals(String.valueOf(currentUser)))
+					{
+						int id = workouts.getInt(WORKOUTS_FIELD_NAMES[0]);
+						String muscleGroup = workouts.getString(WORKOUTS_FIELD_NAMES[1]);
+						String workoutName = workouts.getString(WORKOUTS_FIELD_NAMES[2]);
+						
+						switch(muscleGroup)
+						{
+							case "Shoulders":
+								mAllShoulderWorkoutsList.add(workoutName);
+								break;
+							case "Chest":
+								mAllChestWorkoutsList.add(workoutName);
+								break;
+							case "Abs":
+								mAllAbWorkoutsList.add(workoutName);
+								break;
+							case "Back":
+								mAllBackWorkoutsList.add(workoutName);
+								break;
+							case "Biceps":
+								mAllBicepWorkoutsList.add(workoutName);
+								break;
+							case "Triceps":
+								mAllTricepWorkoutsList.add(workoutName);
+								break;
+							case "Legs":
+								mAllLegWorkoutsList.add(workoutName);
+								break;
+						}
+						
+						theInstance.mAllWorkoutsList.add(new Workout(id, muscleGroup, workoutName));
+					}
+				}
 			}
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
 		}
 	}
 	
@@ -201,6 +246,16 @@ public class Controller implements AutoCloseable
 		while(workouts.next())
 			if(!theInstance.mAllMuscleGroupsList.contains(workouts.getString(2)))
 				theInstance.mAllMuscleGroupsList.add(workouts.getString(2));
+	}
+	
+	public int getCurrentUser()
+	{
+		return currentUser;
+	}
+	
+	public void setCurrentUser(int userId)
+	{
+		currentUser = userId;
 	}
 	
 	/**
@@ -241,15 +296,19 @@ public class Controller implements AutoCloseable
 				
 			while(trackedWorkouts.next())
 			{
-				int id = trackedWorkouts.getInt(TRACKED_WORKOUTS_FIELD_NAMES[0]);
-				String muscleGroup = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[1]);
-				String name = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[2]);
-				int reps = trackedWorkouts.getInt(TRACKED_WORKOUTS_FIELD_NAMES[3]);
-				double weight = trackedWorkouts.getDouble(TRACKED_WORKOUTS_FIELD_NAMES[4]);
-				String dateRecorded = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[5]);
-						
-				mCurrentlyViewedTrackedWorkoutList.add(new TrackedWorkout(id, muscleGroup, name, reps, weight, dateRecorded));
-				++createdRecords;
+				String userId = trackedWorkouts.getString("user_id");
+				if(userId.equals("0") || userId.equals(String.valueOf(currentUser)))
+				{
+					int id = trackedWorkouts.getInt(TRACKED_WORKOUTS_FIELD_NAMES[0]);
+					String muscleGroup = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[1]);
+					String name = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[2]);
+					int reps = trackedWorkouts.getInt(TRACKED_WORKOUTS_FIELD_NAMES[3]);
+					double weight = trackedWorkouts.getDouble(TRACKED_WORKOUTS_FIELD_NAMES[4]);
+					String dateRecorded = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[5]);
+							
+					mCurrentlyViewedTrackedWorkoutList.add(new TrackedWorkout(id, muscleGroup, name, reps, weight, dateRecorded));
+					++createdRecords;
+				}
 			}
 		} 
 		catch (SQLException e) 
@@ -328,7 +387,7 @@ public class Controller implements AutoCloseable
 		{
 			try
 			{
-				String[] values = { muscleGroup, workoutName };
+				String[] values = { muscleGroup, workoutName, String.valueOf(currentUser) };
 				int id = mWorkoutsDB.createRecord(Arrays.copyOfRange(WORKOUTS_FIELD_NAMES, 1, WORKOUTS_FIELD_NAMES.length), values);
 				mAllWorkoutsList.add(new Workout(id, muscleGroup, workoutName));
 				addWorkoutToCorrectWorkoutList(workoutName, muscleGroup);
@@ -381,7 +440,7 @@ public class Controller implements AutoCloseable
 			Integer.valueOf(reps);
 			Double.valueOf(weight);
 			
-			String[] values = { muscleGroup, workoutName, reps, weight, dateRecorded };
+			String[] values = { muscleGroup, workoutName, reps, weight, dateRecorded, String.valueOf(currentUser) };
 			mTrackedWorkoutsDB.createRecord(Arrays.copyOfRange(TRACKED_WORKOUTS_FIELD_NAMES, 1, TRACKED_WORKOUTS_FIELD_NAMES.length), values);
 			
 			return true;

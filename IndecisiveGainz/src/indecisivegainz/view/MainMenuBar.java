@@ -1,11 +1,14 @@
 package indecisivegainz.view;
 
+import indecisivegainz.controller.Controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 
 public class MainMenuBar
 {
+	private static Controller controller = Controller.getInstance();
+	
 	@FXML
 	private BorderPane menu;
 	@FXML
@@ -19,6 +22,7 @@ public class MainMenuBar
 	@FXML
 	public void logout() 
 	{
+		controller.setCurrentUser(0);
 		ViewNavigator.loadScene("Sign In", ViewNavigator.LOGIN_SCENE);
 	}
 	// Event Listener on Button[#createWorkoutButton].onAction
