@@ -16,8 +16,6 @@ public class Authentication
 {
 	private static int logRounds = 4;
 	
-	//private static Controller controller = Controller.getInstance();
-	
 	private static Connection connectToUsersDB() throws SQLException
 	{
 		try 
@@ -33,13 +31,14 @@ public class Authentication
 	
 	private static String getUserHashedPassword(String username)
 	{
-		String query = "SELECT * FROM users WHERE username = '" + username + "'";
+		String query = "SELECT * FROM users WHERE LOWER(username) = '" + username.toLowerCase() + "'";
 		
 		try(Connection connect = connectToUsersDB();
 			Statement stmt = connect.createStatement();
 			ResultSet rs = stmt.executeQuery(query);)
 		{
-			return rs.getString("hashed_password");
+			if(rs.next())
+				return rs.getString("hashed_password");
 		}
 		catch(SQLException e)
 		{
@@ -50,8 +49,8 @@ public class Authentication
 	
 	private static boolean isUniqueUsername(String username)
 	{
-		String query = "SELECT * FROM users WHERE username = '" + username + "'";
-		System.out.println(query);
+		String query = "SELECT * FROM users WHERE LOWER(username) = '" + username.toLowerCase() + "'";
+		//System.out.println(query);
 		
 		try(Connection connect = connectToUsersDB();
 				Statement stmt = connect.createStatement();
@@ -87,16 +86,14 @@ public class Authentication
 	{
 		String retrievedHash = getUserHashedPassword(username);
 		if(retrievedHash != null)
-		{
 			return verifyPassword(password, retrievedHash);
-		}
 		else
 			return false;
 	}
 	
 	public static int getUserId(String username)
 	{
-		String query = "SELECT * FROM users WHERE username = '" + username + "'";
+		String query = "SELECT * FROM users WHERE LOWER(username) = '" + username.toLowerCase() + "'";
 				
 		try(Connection connect = connectToUsersDB();
 				Statement stmt = connect.createStatement();

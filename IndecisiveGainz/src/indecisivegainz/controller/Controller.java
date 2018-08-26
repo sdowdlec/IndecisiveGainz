@@ -31,17 +31,9 @@ public class Controller implements AutoCloseable
 	private int currentUser = 0;
 	
 	private ObservableList<Workout> mAllWorkoutsList;
-	/*
-	private ObservableList<TrackedWorkout> mAllTrackedWorkoutsList;
-	
-	Might be Inefficient to store every single tracked workout in an ObservableList.
-	Maybe just add it to the database, and make a observable list containing only the tracked workouts
-	of a particular workout when viewed
-	*/
 	private ObservableList<TrackedWorkout> mCurrentlyViewedTrackedWorkoutList;
 	private ObservableList<String> mAllMuscleGroupsList;
 	private ObservableList<String> mGeneratedRoutineList;
-	
 	private ObservableList<String> mAllShoulderWorkoutsList;
 	private ObservableList<String> mAllChestWorkoutsList;
 	private ObservableList<String> mAllAbWorkoutsList;
@@ -50,6 +42,7 @@ public class Controller implements AutoCloseable
 	private ObservableList<String> mAllTricepWorkoutsList;
 	private ObservableList<String> mAllLegWorkoutsList;
 	
+	// SQLite database name
 	private static final String DB_NAME = "indecisive_gainz.db";
 	// Workouts database constants
 	private static final String WORKOUTS_TABLE_NAME = "workouts";
@@ -97,12 +90,13 @@ public class Controller implements AutoCloseable
 				// Workouts
 				theInstance.mWorkoutsDB = new DBModel(DB_NAME, WORKOUTS_TABLE_NAME, WORKOUTS_FIELD_NAMES, WORKOUTS_FIELD_TYPES);
 				theInstance.initializeWorkoutsDBFromFile();
-				//theInstance.initializeWorkoutLists();
 				theInstance.initializeMuscleGroupsList();
 				
 				// TrackedWorkouts
 				theInstance.mTrackedWorkoutsDB = new DBModel(DB_NAME, TRACKED_WORKOUTS_TABLE_NAME, TRACKED_WORKOUTS_FIELD_NAMES, TRACKED_WORKOUTS_FIELD_TYPES);
 				// theInstance.initializeTrackedWorkoutsList(theInstance.mTrackedWorkoutsDB.getAllRecords());
+				
+				// Users
 				theInstance.mUsersDB = new DBModel(DB_NAME, USERS_TABLE_NAME, USERS_FIELD_NAMES, USERS_FIELD_TYPES);
 				theInstance.initializeUsersDB();
 				

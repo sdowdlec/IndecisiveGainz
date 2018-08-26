@@ -59,19 +59,27 @@ public class LoginScene
 		String username = usernameTF.getText();
 		String password = passwordTF.getText();
 		
-		boolean isValidLogin = Authentication.authenticateLogin(username, password);
-		if(isValidLogin)
+		if(!username.equals("") && !password.equals(""))
 		{
-			controller.setCurrentUser(Authentication.getUserId(username));
-			System.out.println(controller.getCurrentUser());
-			controller.initializeWorkoutLists();
-			ViewNavigator.loadMainSceneDefault();
+			boolean isValidLogin = Authentication.authenticateLogin(username, password);
+			if(isValidLogin)
+			{
+				controller.setCurrentUser(Authentication.getUserId(username));
+				System.out.println(controller.getCurrentUser());
+				controller.initializeWorkoutLists();
+				ViewNavigator.loadMainSceneDefault();
+			}
+			else
+			{
+				incorrectCredentialsLabel.setVisible(true);
+				incorrectCredentialsLabel.setText("Invalid login.");
+				//System.out.println(controller.getCurrentUser());
+			}
 		}
 		else
 		{
 			incorrectCredentialsLabel.setVisible(true);
-			incorrectCredentialsLabel.setText("Invalid login.");
-			System.out.println(controller.getCurrentUser());
+			incorrectCredentialsLabel.setText("Please enter your credentials.");
 		}
 	}
 }

@@ -3,6 +3,7 @@ package indecisivegainz.view;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import indecisivegainz.model.*;
@@ -37,9 +38,15 @@ public class SignupScene
 		boolean wasCreated = Authentication.createAccount(username, password, confirmedPassword);
 		errorLabel.setVisible(true);
 		if(wasCreated)
+		{
+			errorLabel.setTextFill(Color.GREEN);
 			errorLabel.setText("Account created successfuly!");
+		}
 		else
-			errorLabel.setText("Unable to create account.\nUsername may be taken or passwords do not match.");
+		{
+			errorLabel.setTextFill(Color.RED);
+			errorLabel.setText("\t\tUnable to create account.\nUsername may be taken or passwords do not match.");
+		}
 	}
 	// Event Listener on Button[#backButton].onAction
 	@FXML
