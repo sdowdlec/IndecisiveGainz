@@ -14,7 +14,8 @@ import java.util.Scanner;
 import indecisivegainz.model.*;
 
 /**
- * 
+ * The Controller class for the MVC design.
+ * Contains all necessary methods to be used throughout the project.
  * @author Sean Dowdle
  *
  */
@@ -59,8 +60,10 @@ public class Controller implements AutoCloseable
 	private static final String[] USERS_FIELD_TYPES = { "INTEGER PRIMARY KEY", "TEXT", "TEXT" };
 	
 	/** 
-	 * 
-	 * @return 
+	 * Uses lazy instantiation to instantiate an instance of the Controller.
+	 * Initializes all necessary member variables with default data and existing data
+	 * from the tables in the database.
+	 * @return An instance of the Controller object
 	 */
 	public static Controller getInstance()
 	{
@@ -145,9 +148,6 @@ public class Controller implements AutoCloseable
 		return recordsCreated;
 	}
 	
-	/*
-	 * Initializes the usersDB to have a guest login by default
-	 */
 	private void initializeUsersDB() throws SQLException
 	{
 		if(!(theInstance.mUsersDB.getRecordCount() > 0))
@@ -158,7 +158,7 @@ public class Controller implements AutoCloseable
 	}
 	
 	/**
-	 * Initializes all of the different workouts lists.
+	 * Initializes all of the different Workouts lists.
 	 * @param workouts The ResultSet containing all of the workouts in the database
 	 * @throws SQLException
 	 */
@@ -227,12 +227,6 @@ public class Controller implements AutoCloseable
 		}
 	}
 	
-	/**
-	 * Initializes the mMuscleGroupsList to contain only UNIQUE muscle groups from the
-	 * workouts table.
-	 * @param workouts The ResultSet containing all of the workouts in the database
-	 * @throws SQLException
-	 */
 	private void initializeMuscleGroupsList() throws SQLException
 	{
 		ResultSet workouts = theInstance.mWorkoutsDB.getAllRecords();
@@ -242,21 +236,23 @@ public class Controller implements AutoCloseable
 				theInstance.mAllMuscleGroupsList.add(workouts.getString(2));
 	}
 	
+	/**
+	 * Returns the id of the currently logged in user.
+	 * @return The id of the currently logged in user
+	 */
 	public int getCurrentUser()
 	{
 		return currentUser;
 	}
-	
+	/**
+	 * Sets the current user id to the new user id.
+	 * @param userId The new user id to set as the current user
+	 */
 	public void setCurrentUser(int userId)
 	{
 		currentUser = userId;
 	}
 	
-	/**
-	 * 
-	 * @param muscleGroup
-	 * @return
-	 */
 	private boolean addToMuscleGroupsList(String muscleGroup)
 	{
 		if(!theInstance.mAllMuscleGroupsList.contains(muscleGroup))
@@ -271,8 +267,8 @@ public class Controller implements AutoCloseable
 	
 	/**
 	 * Initializes the mCurrentlyViewedTrackedWorkoutsList to contain all records of that
-	 * specific workout by filtering on the workout name.
-	 * @param workoutName
+	 * specific workout that have been tracked by filtering on the workout name.
+	 * @param workoutName The name of the workout to get the tracked history
 	 * @return The number of records that were added to the list
 	 * @throws SQLException
 	 */
@@ -365,10 +361,16 @@ public class Controller implements AutoCloseable
 		return mAllLegWorkoutsList;
 	}
 	
+	/**
+	 * Adds a new workout to the database and Workouts lists if it is
+	 * a workout not already added.
+	 * @param workoutName The name of the workout to add
+	 * @param muscleGroup The muscle group the workout belongs to
+	 * @return A boolean based on if the workout was added or not
+	 */
 	public boolean addNewWorkout(String workoutName, String muscleGroup)
 	{
 		// TODO Look into making this feel less hacky
-		// TODO Fix bug where the new workout is being addd but not displayed in the ObservableList  / ListView
 		if(workoutName.equals("") || muscleGroup == null)
 			return false;
 		
@@ -396,7 +398,7 @@ public class Controller implements AutoCloseable
 		return false;
 	}
 	
-	public void addWorkoutToCorrectWorkoutList(String workoutName, String muscleGroup)
+	private void addWorkoutToCorrectWorkoutList(String workoutName, String muscleGroup)
 	{
 		switch(muscleGroup)
 		{
@@ -424,6 +426,15 @@ public class Controller implements AutoCloseable
 		}
 	}
 	
+	/**
+	 * Tracks the users weight and reps for a given workout to the tracked_workouts table.
+	 * @param workoutName The name of the workout to track
+	 * @param muscleGroup The muscle group the workout belongs to
+	 * @param reps The number of reps recorded
+	 * @param weight The weight recorded
+	 * @param dateRecorded The date they tracked the workout
+	 * @return A boolean based on if the workout was successfully tracked or not
+	 */
 	public boolean trackNewWorkout(String workoutName, String muscleGroup, String reps, String weight, String dateRecorded)
 	{
 		if(reps.equals("") || weight.equals(""))
@@ -449,6 +460,12 @@ public class Controller implements AutoCloseable
 		}
 	}
 	
+	/**
+	 * Deletes the the selected TrackedWorkout from the database and
+	 * mCurrentlyViewedTrackedWorkoutList.
+	 * @param selectedItem The selected TrackedWorkout to delete
+	 * @return A boolean based on if the selected item was deleted successfully
+	 */
 	public boolean deleteTrackedWorkoutFromHistory(TrackedWorkout selectedItem)
 	{
 		try
@@ -464,6 +481,11 @@ public class Controller implements AutoCloseable
 		return true;
 	}
 	
+	/**
+	 * Returns the users personal record for weight lifted 
+	 * for the workout they are currently viewing.
+	 * @return The users personal record for weight lifted
+	 */
 	public String getPersonalRecordFromHistory()
 	{
 		double pr = 0.0;
@@ -477,12 +499,14 @@ public class Controller implements AutoCloseable
 	}
 	
 	/**
-	 * 
-	 * @param muscleGroups
-	 * @param numUniqueWorkouts
+	 * Randomly generates a workout routine based on how many workouts the user
+	 * wants to do for that specific muscle group.
+	 * @param muscleGroups An array of all the muscle groups the user wants to generate their routine from
+	 * @param numUniqueWorkouts The number of unique workouts to generate for each muscle group
 	 */
 	public void generateRoutine(String[] muscleGroups, int[] numUniqueWorkouts)
 	{
+		// TODO Look into reducing redundancies in the switch statement
 		if(mGeneratedRoutineList.size() > 0)
 			mGeneratedRoutineList.clear();
 		
@@ -592,6 +616,10 @@ public class Controller implements AutoCloseable
 		}
 	}
 	
+	/**
+	 * Returns the generated routine list.
+	 * @return The generated routine list
+	 */
 	public ObservableList<String> getGeneratedRoutine()
 	{
 		return mGeneratedRoutineList;
@@ -600,8 +628,8 @@ public class Controller implements AutoCloseable
 	/**
 	 * Check if an array contains duplicates in O(n) complexity.
 	 * Sets cannot contain duplicates so if you try to add a duplicate it will return false.
-	 * @param list
-	 * @return
+	 * @param list The list to check for duplicates
+	 * @return A boolean based on if the list contains duplicates or not
 	 */
 	public boolean containsDuplicates(String[] list)
 	{
@@ -614,10 +642,15 @@ public class Controller implements AutoCloseable
 		return false;
 	}
 	
+	/**
+	 * Implemented from AutoCloseable.
+	 * Closes the connections to the databases.
+	 */
 	@Override
 	public void close() throws Exception 
 	{
 		mWorkoutsDB.close();
 		mTrackedWorkoutsDB.close();
+		mUsersDB.close();
 	}
 }

@@ -1,6 +1,9 @@
 package indecisivegainz.model;
 /**
- * 
+ * Represents a user tracked workout.
+ * TrackedWorkouts consits of the number of reps
+ * and amount of weight the user did for the given
+ * workout.
  * @author Sean Dowdle
  *
  */
@@ -101,6 +104,4 @@ public class TrackedWorkout extends Workout
 		String formattedDate = dateData[1] + "/" + dateData[2] + "/" + dateData[0];
 		return mReps + "\t\t\t\t" + mWeight + " lbs" + "\t\t\t\t\t" + formattedDate;
 	}
-	
-	
 }
