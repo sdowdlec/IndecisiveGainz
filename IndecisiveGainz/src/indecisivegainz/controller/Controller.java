@@ -309,54 +309,44 @@ public class Controller implements AutoCloseable
 		return createdRecords;
 	}
 	
-	public ObservableList<TrackedWorkout> getTrackedHistoryList()
-	{
+	public ObservableList<TrackedWorkout> getTrackedHistoryList() {
 		return mCurrentlyViewedTrackedWorkoutList;
 	}
 	
-	public ObservableList<Workout> getAllWorkoutsList()
-	{
+	public ObservableList<Workout> getAllWorkoutsList() {
 		return mAllWorkoutsList;
 	}
 	
-	public ObservableList<String> getAllMuscleGroups()
-	{
+	public ObservableList<String> getAllMuscleGroups() {
 		FXCollections.sort(mAllMuscleGroupsList);
 		return mAllMuscleGroupsList;
 	}
 	
-	public ObservableList<String> getAllShoulderWorkoutsList()
-	{
+	public ObservableList<String> getAllShoulderWorkoutsList() {
 		FXCollections.sort(mAllShoulderWorkoutsList);
 		return mAllShoulderWorkoutsList;
 	}
-	public ObservableList<String> getAllChestWorkoutsList()
-	{
+	public ObservableList<String> getAllChestWorkoutsList() {
 		FXCollections.sort(mAllChestWorkoutsList);
 		return mAllChestWorkoutsList;
 	}
-	public ObservableList<String> getAllAbWorkoutsList()
-	{
+	public ObservableList<String> getAllAbWorkoutsList() {
 		FXCollections.sort(mAllAbWorkoutsList);
 		return mAllAbWorkoutsList;
 	}
-	public ObservableList<String> getAllBicepWorkoutsList()
-	{
+	public ObservableList<String> getAllBicepWorkoutsList() {
 		FXCollections.sort(mAllBicepWorkoutsList);
 		return mAllBicepWorkoutsList;
 	}
-	public ObservableList<String> getAllBackWorkoutsList()
-	{
+	public ObservableList<String> getAllBackWorkoutsList() {
 		FXCollections.sort(mAllBackWorkoutsList);
 		return mAllBackWorkoutsList;
 	}
-	public ObservableList<String> getAllTricepWorkoutsList()
-	{
+	public ObservableList<String> getAllTricepWorkoutsList() {
 		FXCollections.sort(mAllTricepWorkoutsList);
 		return mAllTricepWorkoutsList;
 	}
-	public ObservableList<String> getAllLegWorkoutsList()
-	{
+	public ObservableList<String> getAllLegWorkoutsList() {
 		FXCollections.sort(mAllLegWorkoutsList);
 		return mAllLegWorkoutsList;
 	}
@@ -620,10 +610,7 @@ public class Controller implements AutoCloseable
 	 * Returns the generated routine list.
 	 * @return The generated routine list
 	 */
-	public ObservableList<String> getGeneratedRoutine()
-	{
-		return mGeneratedRoutineList;
-	}
+	public ObservableList<String> getGeneratedRoutine() { return mGeneratedRoutineList; }
 	
 	/**
 	 * Check if an array contains duplicates in O(n) complexity.

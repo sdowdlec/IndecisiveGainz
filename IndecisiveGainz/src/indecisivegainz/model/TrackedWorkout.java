@@ -1,7 +1,7 @@
 package indecisivegainz.model;
 /**
- * Represents a user tracked workout.
- * TrackedWorkouts consits of the number of reps
+ * A subclass of Workout which represents a user tracked workout.
+ * TrackedWorkouts consists of the number of reps
  * and amount of weight the user did for the given
  * workout.
  * @author Sean Dowdle
@@ -14,13 +14,15 @@ public class TrackedWorkout extends Workout
 	private String mDateRecorded;
 	
 	/**
-	 * 
-	 * @param id
-	 * @param workoutName
-	 * @param muscleGroup
-	 * @param reps
-	 * @param weight
-	 * @param dateRecorded
+	 * Constructs a new TrackedWorkout object.
+	 * A TrackedWorkout object represents a user tracked set for a given workout.
+	 * A set consists of the amount of reps and weight, as well as which workout it was.
+	 * @param id The id of the TrackedWorkout from the database
+	 * @param workoutName The name of the workout the user wants to track
+	 * @param muscleGroup The muscle group the workout is associated with that the user wants to track
+	 * @param reps The number of reps the user recorded doing for the given set
+	 * @param weight The amount of weight (in pounds) the user recorded doing for the given set
+	 * @param dateRecorded The date that the user recorded doing the workout
 	 */
 	public TrackedWorkout(int id, String muscleGroup, String workoutName, int reps, double weight, String dateRecorded)
 	{
@@ -30,19 +32,27 @@ public class TrackedWorkout extends Workout
 		mDateRecorded = dateRecorded;
 	}
 	
+	/**
+	 * Returns the id of the TrackedWorkout.
+	 * @return the id of the TrackedWorkout
+	 */
 	public int getId()
 	{
 		return mId;
 	}
 	
+	/**
+	 * Sets the id of the TrackedWorkout.
+	 * @param newId The new id to set
+	 */
 	public void setId(int newId)
 	{
 		mId = newId;
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Returns the number of reps recorded for the given set and workout.
+	 * @return the number of reps recorded
 	 */
 	public int getReps()
 	{
@@ -50,8 +60,8 @@ public class TrackedWorkout extends Workout
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Returns the amount of weight recorded (in pounds) for the given set and workout.
+	 * @return the amount of weight recorded (in pounds)
 	 */
 	public double getWeight()
 	{
@@ -59,8 +69,8 @@ public class TrackedWorkout extends Workout
 	}
 	
 	/**
-	 * 
-	 * @param reps
+	 * Sets the number of reps done for the TrackedWorkout.
+	 * @param reps The number of reps to set
 	 */
 	public void setReps(int reps)
 	{
@@ -68,8 +78,8 @@ public class TrackedWorkout extends Workout
 	}
 	
 	/**
-	 * 
-	 * @param weight
+	 * Sets the amount of weight lifted for the TrackedWorkout.
+	 * @param weight The amount of weight (in pounds) to set
 	 */
 	public void setWeight(double weight)
 	{
@@ -77,8 +87,8 @@ public class TrackedWorkout extends Workout
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Returns the date the workout was tracked.
+	 * @return the date the workout was tracked
 	 */
 	public String getDateRecorded()
 	{
@@ -86,8 +96,8 @@ public class TrackedWorkout extends Workout
 	}
 	
 	/**
-	 * 
-	 * @param newDate
+	 * Sets the date the TrackedWorkout was recorded.
+	 * @param newDate The date recorded to set
 	 */
 	public void setDateRecorded(String newDate)
 	{

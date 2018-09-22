@@ -12,7 +12,13 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
-
+/**
+ * Acts as the Controller for CreateWorkoutPane.fxml
+ * This pane is responsible for allowing the user to create a
+ * new Workout in order to track their progress for that Workout.
+ * @author Sean Dowdle
+ *
+ */
 public class CreateWorkoutPane implements Initializable
 {
 	private static Controller controller = Controller.getInstance();
@@ -30,7 +36,15 @@ public class CreateWorkoutPane implements Initializable
 	@FXML
 	private Button clearButton;
 
-	// Event Listener on Button[#createWorkoutButton].onAction
+	/**
+	 *  Event Listener on Button[#createWorkoutButton].onAction
+	 *  
+	 *  Upon clicking the createWorkoutButton, the functions will get the
+	 *  user entered values for the new Workout to create. It will call a
+	 *  function from the controller to create the new Workout and will
+	 *  display a success or failure message based on if the Workout could
+	 *  be created.
+	 */
 	@FXML
 	public void createNewWorkout() 
 	{
@@ -50,14 +64,23 @@ public class CreateWorkoutPane implements Initializable
 		}
 		errorLabel.setVisible(true);
 	}
-	// Event Listener on Button[#clearButton].onAction
+	/**
+	 * Event Listener on Button[#clearButton].onAction
+	 * 
+	 * Clears the input fields of any entered values.
+	 */
 	@FXML
-	public void clearFields(ActionEvent event) 
+	public void clearFields() 
 	{
 		workoutNameTF.clear();
 		muscleGroupCB.getSelectionModel().select(-1);
 		errorLabel.setVisible(false);
 	}
+	
+	
+	/**
+	 * Initializes the pane.
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{

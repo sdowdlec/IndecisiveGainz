@@ -7,7 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * 
+ * Model class for the database tables.
+ * Contains various methods to query and update the tables in SQLite.
  * @author Sean Dowdle
  *
  */
@@ -21,11 +22,11 @@ public class DBModel implements AutoCloseable
 	private Statement mStmt;
 	
 	/**
-	 * 
-	 * @param dbName
-	 * @param tableName
-	 * @param fieldNames
-	 * @param fieldTypes
+	 * Constructs a DBModel object.
+	 * @param dbName The name of the database
+	 * @param tableName The name of the table
+	 * @param fieldNames The field names for the table
+	 * @param fieldTypes The data types for each field
 	 * @throws SQLException
 	 */
 	public DBModel(String dbName, String tableName, String[] fieldNames, String[] fieldTypes) throws SQLException 
@@ -56,8 +57,8 @@ public class DBModel implements AutoCloseable
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Queries the table to return a ResultSet of all the records.
+	 * @return A ResultSet of all the records from the table
 	 * @throws SQLException
 	 */
 	public ResultSet getAllRecords() throws SQLException
@@ -66,6 +67,13 @@ public class DBModel implements AutoCloseable
 		return mStmt.executeQuery(selectSQL);
 	}
 	
+	/**
+	 * Queries the table on a specified field to return all records containing the given search value.
+	 * @param fieldName The field name to query on
+	 * @param searchValue The value to query the table/field on
+	 * @return A ResultSet containing all of the records that were found on the specified field and value
+	 * @throws SQLException
+	 */
 	public ResultSet getRecordsOnField(String fieldName, String searchValue) throws SQLException
 	{
 		String selectSQL = "SELECT * FROM " + mTableName + " WHERE " + fieldName + " = '" + searchValue + "'";
@@ -73,14 +81,13 @@ public class DBModel implements AutoCloseable
 	}
 	
 	/**
-	 * 
-	 * @param field
-	 * @param condition
-	 * @param conditionField
-	 * @return
+	 * Queries the table on a field and condition to return the value
+	 * @param condition The condition to query on
+	 * @param conditionField The field to query on
+	 * @return The value from the field that was found from the query
 	 * @throws SQLException
 	 */
-	public String getItemOnCondition(String field, String condition, String conditionField) throws SQLException
+	public String getItemOnCondition(String condition, String conditionField) throws SQLException
 	{
 		String selectSQL = "SELECT FROM " + mTableName + " WHERE " + conditionField + " = " + condition;
 		ResultSet rs = mStmt.executeQuery(selectSQL);
@@ -90,9 +97,9 @@ public class DBModel implements AutoCloseable
 	}
 	
 	/**
-	 * 
-	 * @param key
-	 * @return
+	 * Queries the table on the key to return its record.
+	 * @param key The primary key to query on
+	 * @return The record matching the specified primary key
 	 * @throws SQLException
 	 */
 	public ResultSet getRecord(String key) throws SQLException 
@@ -102,8 +109,8 @@ public class DBModel implements AutoCloseable
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Returns the number of records in a table.
+	 * @return The number of records in a table.
 	 * @throws SQLException
 	 */
 	public int getRecordCount() throws SQLException 
@@ -118,10 +125,10 @@ public class DBModel implements AutoCloseable
 	}
 	
 	/**
-	 * 
-	 * @param fields
-	 * @param values
-	 * @return
+	 * Inserts a new record into the table.
+	 * @param fields An array containing all of the field names for the table
+	 * @param values An array containing all of the values for the new record
+	 * @return The primary key that was assigned to the newly created record
 	 * @throws SQLException
 	 */
 	public int createRecord(String[] fields, String[] values) throws SQLException 
@@ -144,11 +151,11 @@ public class DBModel implements AutoCloseable
 	}
 	
 	/**
-	 * 
-	 * @param key
-	 * @param fields
-	 * @param values
-	 * @return
+	 * Updates a record in the table based on its primary key.
+	 * @param key The primary key of the record to update.
+	 * @param fields An array containing all of the field names for the table
+	 * @param values An array containing all of the values to update the record with
+	 * @return A boolean based on if we could update the record or not
 	 * @throws SQLException
 	 */
 	public boolean updateRecord(String key, String[] fields, String[] values) throws SQLException 
@@ -170,7 +177,7 @@ public class DBModel implements AutoCloseable
 	}
 	
 	/**
-	 * 
+	 * Deletes all records from the table.
 	 * @throws SQLException
 	 */
 	public void deleteAllRecords() throws SQLException 
@@ -180,8 +187,8 @@ public class DBModel implements AutoCloseable
 	}
 	
 	/**
-	 * 
-	 * @param key
+	 * Deletes a specific record based on the given primary key.
+	 * @param key The primary key of the record to delete
 	 * @throws SQLException
 	 */
 	public void deleteRecord(String key) throws SQLException 
@@ -219,7 +226,7 @@ public class DBModel implements AutoCloseable
 	}
 	
 	/**
-	 * 
+	 * Closed connection to the SQLite database and Statement.
 	 * @throws SQLException
 	 */
 	@Override
