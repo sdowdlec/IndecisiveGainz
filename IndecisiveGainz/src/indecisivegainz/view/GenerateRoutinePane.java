@@ -11,7 +11,14 @@ import java.util.ResourceBundle;
 import indecisivegainz.controller.Controller;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-
+/**
+ * Acts as the Controller for GenerateRoutinePane.fxml
+ * This pane is responsible for allowing the user to have
+ * a workout routine auto-generated for them based on selected
+ * parameters.
+ * @author Sean Dowdle
+ *
+ */
 public class GenerateRoutinePane implements Initializable
 {
 	private static Controller controller = Controller.getInstance();
@@ -35,31 +42,23 @@ public class GenerateRoutinePane implements Initializable
 	private static String[] muscleGroups;
 	private static int[] numUniqueWorkouts;
 	
-	public static int getNumMenuItems()
-	{
-		return numMenuItems;
-	}
-	public static String[] getMuscleGroups()
-	{
-		return muscleGroups;
-	}
-	public static int[] getNumUniqueWorkouts()
-	{
-		return numUniqueWorkouts;
-	}
-	// Event Listener on Button[#generateRoutineButton].onAction
+	public static int getNumMenuItems() { return numMenuItems; }
+	public static String[] getMuscleGroups() { return muscleGroups; }
+	public static int[] getNumUniqueWorkouts() { return numUniqueWorkouts; }
+	/**
+	 *  Event Listener on Button[#generateRoutineButton].onAction
+	 *  
+	 *  Auto-generates a workout routine based on the users input.
+	 */
 	@FXML
 	public void generateRoutineButton() 
 	{
-		// TODO add something to keep track in case the user wanted to generate more workouts than there are in the list
-		// We could make a message show up at the bottom of the generated routines pane
 		boolean isGeneratable = true;
 		muscleGroups = new String[numMenuItems];
 		numUniqueWorkouts = new int[numMenuItems];
 		
 		for(int i = 0; i < numMenuItems; i++)
 		{
-			// TODO Crashes when if user enters the same muscle group twice.
 			if(comboBoxes[i].getSelectionModel().getSelectedIndex() == -1 || textFields[i].getText().equals(""))
 			{
 				isGeneratable = false;
@@ -107,7 +106,11 @@ public class GenerateRoutinePane implements Initializable
 			forwardButton.setVisible(false);
 		}
 	}
-	// Event Listener on Button[#clearButton].onAction
+	/**
+	 *  Event Listener on Button[#clearButton].onAction
+	 *  
+	 *  Clears the input fields of any entered values.
+	 */
 	@FXML
 	public void clearFields() 
 	{
@@ -151,6 +154,11 @@ public class GenerateRoutinePane implements Initializable
 		return cb;
 	}
 	
+	/**
+	 * Initializes a new TextField object, sets the properties for it,
+	 * and returns it.
+	 * @return A TextField object
+	 */
 	public TextField createNumRepsTF()
 	{
 		TextField tf = new TextField();
@@ -162,6 +170,11 @@ public class GenerateRoutinePane implements Initializable
 		return tf;
 	}
 	
+	/**
+	 * Initializes a new Button object, sets the properties for it,
+	 * and returns it.
+	 * @return A Button object.
+	 */
 	public Button createAddItemButton()
 	{
 		Button button = new Button();
@@ -200,12 +213,21 @@ public class GenerateRoutinePane implements Initializable
 		}
 	}
 	
+	/**
+	 * Loads the ViewGeneratedRoutinePane
+	 */
 	@FXML
-	public void loadViewGeneratedRoutinePane()
-	{
+	public void loadViewGeneratedRoutinePane() {
 		ViewNavigator.loadPane("ViewGeneratedRoutinePane.fxml");
 	}
 	
+	/**
+	 * Initializes the pane.
+	 * On initialization of the pane, we set up just one ComboBox and one TextField
+	 * for the user to enter input. We also create a button below those so that the user
+	 * can click it and have the pane dynamically generate more ComboBox and TextFields. This
+	 * is done so the user can enter varying amounts of muscle groups and workouts.
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{

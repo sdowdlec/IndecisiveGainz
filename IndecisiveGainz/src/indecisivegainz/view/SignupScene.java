@@ -8,7 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import indecisivegainz.model.*;
 /**
- * 
+ * This scene is responsible for allowing the user to create a new account.
  * @author Sean Dowdle
  *
  */
@@ -27,7 +27,13 @@ public class SignupScene
 	@FXML
 	private Button backButton;
 
-	// Event Listener on Button[#signUpButton].onAction
+	/**
+	 *  Event Listener on Button[#signUpButton].onAction
+	 *  
+	 *  Gets the user entered credentials and attempts to create an account based on those
+	 *  credentials. Then, display a success or failure message to alert the user
+	 *  if the account could be created or not.
+	 */
 	@FXML
 	public void signUp() 
 	{
@@ -48,7 +54,11 @@ public class SignupScene
 			errorLabel.setText("\t\tUnable to create account.\nUsername may be taken or passwords do not match.");
 		}
 	}
-	// Event Listener on Button[#backButton].onAction
+	/**
+	 *  Event Listener on Button[#backButton].onAction
+	 *  
+	 *  Loads the login scene.
+	 */
 	@FXML
 	public void loadSigninScene() 
 	{

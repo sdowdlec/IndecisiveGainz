@@ -10,7 +10,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-
+/**
+ * This pane is responsible for displaying the
+ * generated workout routine.
+ * @author Sean Dowdle
+ *
+ */
 public class ViewGeneratedRoutinePane implements Initializable
 {
 	private static Controller controller = Controller.getInstance();
@@ -28,13 +33,23 @@ public class ViewGeneratedRoutinePane implements Initializable
 	@FXML
 	private HBox generatedInfoHBox;
 
-	// Event Listener on Button[#backButton].onAction
+	/**
+	 *  Event Listener on Button[#backButton].onAction
+	 *  
+	 *  Loads the GenerateRoutinePane.
+	 */
 	@FXML
 	public void loadGenerateRoutinePane()
 	{
 		ViewNavigator.loadPane("GenerateRoutinePane.fxml");
 	}
-	// Event Listener on Button[#trackWorkoutButton].onAction
+	
+	/**
+	 *  Event Listener on Button[#trackWorkoutButton].onAction
+	 *  
+	 *  If the user selects one of the workouts from the ListView, load the
+	 *  TrackWorkoutPane with the info from the selected workout.
+	 */
 	@FXML
 	public void loadTrackWorkoutPane()
 	{
@@ -42,6 +57,10 @@ public class ViewGeneratedRoutinePane implements Initializable
 		TrackWorkoutPane.setIsViewGeneratedPath(true);
 		ViewNavigator.loadPane("TrackWorkoutPane.fxml");
 	}
+	
+	/**
+	 * Initializes the pane.
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1)
 	{

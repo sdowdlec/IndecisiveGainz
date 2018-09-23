@@ -9,7 +9,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
-
+/**
+ * This pane is responsible for displaying all of the available
+ * workouts for the selected muscle group.
+ * @author Sean Dowdle
+ *
+ */
 public class WorkoutsPane implements Initializable
 {
 	private static Controller controller = Controller.getInstance();
@@ -23,7 +28,11 @@ public class WorkoutsPane implements Initializable
 	@FXML
 	private ListView<String> workoutsLV;
 
-	// Event Listener on Button[#backButton].onAction
+	/**
+	 *  Event Listener on Button[#backButton].onAction
+	 *  
+	 *  Loads the MuscleGroupsPane
+	 */
 	@FXML
 	public void loadMuscleGroupPane() 
 	{
@@ -54,16 +63,14 @@ public class WorkoutsPane implements Initializable
 		}
 	}
 	
-	public static String getSelectedWorkout()
-	{
-		return selectedWorkout;
-	}
-	
-	public static void setSelectedWorkout(String workout)
-	{
-		selectedWorkout = workout;
-	}
+	// Static methods for passing info between panes.
+	public static String getSelectedWorkout() { return selectedWorkout; }
+	public static void setSelectedWorkout(String workout) { selectedWorkout = workout; }
 
+	/**
+	 * Initializes the pane.
+	 * Initializes the ListView with all of the workouts for that muscle group.
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{

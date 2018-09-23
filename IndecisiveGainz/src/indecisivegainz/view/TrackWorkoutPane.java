@@ -13,7 +13,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 
 import java.util.Date;
-
+/**
+ * This pane is responsible for allowing the user
+ * to track the weight and reps of a specific workout
+ * they did.
+ * @author Sean Dowdle
+ *
+ */
 public class TrackWorkoutPane implements Initializable
 {
 	private static Controller controller = Controller.getInstance();
@@ -35,7 +41,13 @@ public class TrackWorkoutPane implements Initializable
 	
 	private static boolean isViewGeneratedPath = false;
 
-	// Event Listener on Button[#trackWorkoutButton].onAction
+	/**
+	 *  Event Listener on Button[#trackWorkoutButton].onAction
+	 *  
+	 *  Gets the user entered input and attempts to track their workout. Then
+	 *  we display a success or failure message based on if the workout could be 
+	 *  tracked.
+	 */
 	@FXML
 	public void trackWorkout() 
 	{
@@ -59,7 +71,12 @@ public class TrackWorkoutPane implements Initializable
 		
 		statusMessage.setVisible(true);
 	}
-	// Event Listener on Button[#clearButton].onAction
+	
+	/**
+	 *  Event Listener on Button[#clearButton].onAction
+	 *  
+	 *  Clears the input fields of any entered values.
+	 */
 	@FXML
 	public void clearFields() 
 	{
@@ -67,10 +84,19 @@ public class TrackWorkoutPane implements Initializable
 		repsTF.clear();
 		statusMessage.setVisible(false);
 	}
+	
+	/**
+	 * 
+	 * @param isViewPath
+	 */
 	public static void setIsViewGeneratedPath(boolean isViewPath)
 	{
 		isViewGeneratedPath = isViewPath;
 	}
+	
+	/**
+	 * Loads the previous pane the user was at.
+	 */
 	@FXML
 	public void back()
 	{
@@ -81,6 +107,10 @@ public class TrackWorkoutPane implements Initializable
 		
 		isViewGeneratedPath = false;
 	}
+	
+	/**
+	 * Initializes the pane.
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{

@@ -8,7 +8,12 @@ import java.util.ResourceBundle;
 import indecisivegainz.controller.Controller;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
-
+/**
+ * This pane displays all of the muscle groups the user has
+ * workouts for.
+ * @author Sean Dowdle
+ *
+ */
 public class MuscleGroupsPane implements Initializable
 {
 	private static Controller controller = Controller.getInstance();
@@ -52,11 +57,13 @@ public class MuscleGroupsPane implements Initializable
 	{
 		return selectedMuscleGroup;
 	}
-
+	
+	/**
+	 * Initializes the pane.
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
-		// TODO Auto-generated method stub
 		muscleGroupsLV.setItems(controller.getAllMuscleGroups());
 	}
 }

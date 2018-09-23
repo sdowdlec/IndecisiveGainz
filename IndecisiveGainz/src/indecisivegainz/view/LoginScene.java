@@ -9,7 +9,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.CheckBox;
 /**
- * 
+ * This scene is responsible for allowing the user to either login 
+ * with their credentials or as a guest. Once logged in, the user
+ * will be brought to the main menu.
+ * This will be the first screen the user sees when launching the
+ * application.
  * @author Sean Dowdle
  *
  */
@@ -32,7 +36,12 @@ public class LoginScene
 	@FXML
 	private Button loginButton;
 
-	// Event Listener on Label[#continueAsGuestLabel].onMouseClicked
+	/**
+	 *  Event Listener on Label[#continueAsGuestLabel].onMouseClicked
+	 *  
+	 *  Allows the user to login as a guest, initialize guest data, and load
+	 *  the main menu.
+	 */
 	@FXML
 	public void continueAsGuest() 
 	{
@@ -40,19 +49,36 @@ public class LoginScene
 		controller.initializeWorkoutLists();
 		ViewNavigator.loadMainSceneDefault();
 	}
-	// Event Listener on Label[#signupLabel].onMouseClicked
+	
+	/**
+	 *  Event Listener on Label[#signupLabel].onMouseClicked
+	 *  
+	 *  Brings the user to the sign up screen where the user
+	 *  can create an account.
+	 */
 	@FXML
 	public void loadSignupScene() 
 	{
 		ViewNavigator.loadScene("Sign Up", ViewNavigator.SIGNUP_SCENE);
 	}
-	// Event Listener on CheckBox[#rememberMeCB].onAction
+	
+	/**
+	 *  Event Listener on CheckBox[#rememberMeCB].onAction
+	 *  
+	 *  Saves the user's credentials so that they do not have to re-enter them.
+	 */
 	@FXML
 	public void rememberCredentials() 
 	{
-		// TODO
+		// TODO Research how to do this
 	}
-	// Event Listener on Button[#loginButton].onAction
+	
+	/**
+	 *  Event Listener on Button[#loginButton].onAction
+	 *  
+	 *  Gets the user entered credentials and verifies them to
+	 *  either log them in or alert of an invalid login.
+	 */
 	@FXML
 	public void login() 
 	{
@@ -73,7 +99,6 @@ public class LoginScene
 			{
 				incorrectCredentialsLabel.setVisible(true);
 				incorrectCredentialsLabel.setText("Invalid login.");
-				//System.out.println(controller.getCurrentUser());
 			}
 		}
 		else

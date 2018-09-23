@@ -8,7 +8,8 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 /**
- * 
+ * This class is responsible for loading/swapping scenes and panes
+ * for the GUI application.
  * @author Sean Dowdle
  *
  */
@@ -22,7 +23,7 @@ public class ViewNavigator
 	public static final String MAIN_SCENE = "MainScene.fxml";
 	
 	/**
-	 * 
+	 * Sets the mainStage.
 	 * @param stage
 	 */
 	public static void setStage(Stage stage)
@@ -31,9 +32,9 @@ public class ViewNavigator
 	}
 	
 	/**
-	 * 
-	 * @param title
-	 * @param sceneFXML
+	 * Loads the scene based on the name of the fxml file and sets the title of the Scene.
+	 * @param title The title of the Scene to set
+	 * @param sceneFXML The fxml scene to load
 	 */
 	public static void loadScene(String title, String sceneFXML)
 	{
@@ -65,10 +66,7 @@ public class ViewNavigator
 		}
 	}
 	
-	public static HBox getMenuContainer()
-	{
-		return menuContainer;
-	}
+	public static HBox getMenuContainer() { return menuContainer; }
 	
 	/**
 	 * Sets up the main menu with a newly initialized HBox
