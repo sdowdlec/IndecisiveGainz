@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<BorderPane prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mvc.view.GenerateRoutinePane">
+   <center>
+      <GridPane fx:id="gridPane" alignment="CENTER" hgap="10.0" prefHeight="0.0" prefWidth="600.0" vgap="5.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Muscle Group">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label text="Number of Different Workouts" GridPane.columnIndex="1">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+         <columnConstraints>
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+   </center>
+   <top>
+      <Label text="Generate Routine" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="30.0" />
+         </font>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </Label>
+   </top>
+   <bottom>
+      <GridPane alignment="CENTER" hgap="10.0" prefHeight="100.0" prefWidth="590.0" BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <BorderPane.margin>
+            <Insets left="5.0" right="5.0" top="5.0" />
+         </BorderPane.margin>
+         <children>
+            <Button fx:id="generateRoutineButton" maxHeight="50.0" maxWidth="100.0" mnemonicParsing="false" onAction="#generateRoutineButton" prefHeight="50.0" prefWidth="100.0" style="-fx-background-radius: 0; -fx-background-color: black;" text="Generate" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="clearButton" maxHeight="50.0" maxWidth="100.0" mnemonicParsing="false" onAction="#clearFields" prefHeight="50.0" prefWidth="100.0" style="-fx-background-radius: 0; -fx-background-color: black;" text="Clear" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Label fx:id="statusMessage" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Button fx:id="forwardButton" mnemonicParsing="false" onAction="#loadViewGeneratedRoutinePane" style="-fx-background-color: transparent;" textFill="TRANSPARENT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/fwrdButton.png" />
+                     </image></ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </GridPane>
+   </bottom>
+</BorderPane>

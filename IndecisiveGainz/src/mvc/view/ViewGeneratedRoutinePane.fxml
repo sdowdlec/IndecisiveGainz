@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<BorderPane fx:id="workouts" maxHeight="500.0" maxWidth="601.0" prefHeight="500.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mvc.view.ViewGeneratedRoutinePane">
+   <top>
+      <Label alignment="CENTER" text="Your Generated Routine" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+         <padding>
+            <Insets bottom="10.0" top="10.0" />
+         </padding>
+      </Label>
+   </top>
+   <bottom>
+      <GridPane maxHeight="50.0" prefHeight="50.0" BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#loadGenerateRoutinePane" style="-fx-background-color: transparent;" textFill="TRANSPARENT">
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/backButton.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="trackWorkoutButton" maxHeight="50.0" maxWidth="150.0" mnemonicParsing="false" onAction="#loadTrackWorkoutPane" prefHeight="50.0" prefWidth="150.0" style="-fx-background-radius: 0; -fx-background-color: black;" text="Track Selected Workout" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+         </children>
+      </GridPane>
+   </bottom>
+   <center>
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox fx:id="generatedInfoHBox" prefHeight="36.0" prefWidth="601.0" spacing="20.0">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding></HBox>
+            <ListView fx:id="generatedRoutineLV" prefHeight="317.0" prefWidth="601.0" />
+            <Label fx:id="messageTF" textFill="#979200">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
