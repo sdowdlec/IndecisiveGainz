@@ -102,7 +102,6 @@ public class Controller implements AutoCloseable
 				// Users
 				theInstance.mUsersDB = new DBModel(DB_NAME, USERS_TABLE_NAME, USERS_FIELD_NAMES, USERS_FIELD_TYPES);
 				theInstance.initializeUsersDB();
-				
 			}
 			catch(SQLException e)
 			{
@@ -150,7 +149,7 @@ public class Controller implements AutoCloseable
 	
 	private void initializeUsersDB() throws SQLException
 	{
-		if(!(theInstance.mUsersDB.getRecordCount() > 0))
+		if(theInstance.mUsersDB.getRecordCount() == 0)
 		{
 			String[] values = { "Guest", null};
 			theInstance.mUsersDB.createRecord(Arrays.copyOfRange(USERS_FIELD_NAMES, 1, USERS_FIELD_NAMES.length), values);
@@ -236,23 +235,7 @@ public class Controller implements AutoCloseable
 				theInstance.mAllMuscleGroupsList.add(workouts.getString(2));
 	}
 	
-	/**
-	 * Returns the id of the currently logged in user.
-	 * @return The id of the currently logged in user
-	 */
-	public int getCurrentUser()
-	{
-		return currentUser;
-	}
-	/**
-	 * Sets the current user id to the new user id.
-	 * @param userId The new user id to set as the current user
-	 */
-	public void setCurrentUser(int userId)
-	{
-		currentUser = userId;
-	}
-	
+	@SuppressWarnings("unused")
 	private boolean addToMuscleGroupsList(String muscleGroup)
 	{
 		if(!theInstance.mAllMuscleGroupsList.contains(muscleGroup))
@@ -307,48 +290,6 @@ public class Controller implements AutoCloseable
 		}
 		
 		return createdRecords;
-	}
-	
-	public ObservableList<TrackedWorkout> getTrackedHistoryList() {
-		return mCurrentlyViewedTrackedWorkoutList;
-	}
-	
-	public ObservableList<Workout> getAllWorkoutsList() {
-		return mAllWorkoutsList;
-	}
-	
-	public ObservableList<String> getAllMuscleGroups() {
-		FXCollections.sort(mAllMuscleGroupsList);
-		return mAllMuscleGroupsList;
-	}
-	
-	public ObservableList<String> getAllShoulderWorkoutsList() {
-		FXCollections.sort(mAllShoulderWorkoutsList);
-		return mAllShoulderWorkoutsList;
-	}
-	public ObservableList<String> getAllChestWorkoutsList() {
-		FXCollections.sort(mAllChestWorkoutsList);
-		return mAllChestWorkoutsList;
-	}
-	public ObservableList<String> getAllAbWorkoutsList() {
-		FXCollections.sort(mAllAbWorkoutsList);
-		return mAllAbWorkoutsList;
-	}
-	public ObservableList<String> getAllBicepWorkoutsList() {
-		FXCollections.sort(mAllBicepWorkoutsList);
-		return mAllBicepWorkoutsList;
-	}
-	public ObservableList<String> getAllBackWorkoutsList() {
-		FXCollections.sort(mAllBackWorkoutsList);
-		return mAllBackWorkoutsList;
-	}
-	public ObservableList<String> getAllTricepWorkoutsList() {
-		FXCollections.sort(mAllTricepWorkoutsList);
-		return mAllTricepWorkoutsList;
-	}
-	public ObservableList<String> getAllLegWorkoutsList() {
-		FXCollections.sort(mAllLegWorkoutsList);
-		return mAllLegWorkoutsList;
 	}
 	
 	/**
@@ -472,23 +413,6 @@ public class Controller implements AutoCloseable
 	}
 	
 	/**
-	 * Returns the users personal record for weight lifted 
-	 * for the workout they are currently viewing.
-	 * @return The users personal record for weight lifted
-	 */
-	public String getPersonalRecordFromHistory()
-	{
-		double pr = 0.0;
-		for(TrackedWorkout tw : mCurrentlyViewedTrackedWorkoutList)
-		{
-			if(tw.getWeight() > pr)
-				pr = tw.getWeight();
-		}
-		
-		return (pr == 0.0) ? "N/A" : pr + " lbs";
-	}
-	
-	/**
 	 * Randomly generates a workout routine based on how many workouts the user
 	 * wants to do for that specific muscle group.
 	 * @param muscleGroups An array of all the muscle groups the user wants to generate their routine from
@@ -607,12 +531,6 @@ public class Controller implements AutoCloseable
 	}
 	
 	/**
-	 * Returns the generated routine list.
-	 * @return The generated routine list
-	 */
-	public ObservableList<String> getGeneratedRoutine() { return mGeneratedRoutineList; }
-	
-	/**
 	 * Check if an array contains duplicates in O(n) complexity.
 	 * Sets cannot contain duplicates so if you try to add a duplicate it will return false.
 	 * @param list The list to check for duplicates
@@ -628,6 +546,87 @@ public class Controller implements AutoCloseable
 		
 		return false;
 	}
+	
+	// Getters
+	
+	/**
+	 * Returns the generated routine list.
+	 * @return The generated routine list
+	 */
+	public ObservableList<String> getGeneratedRoutine() { return mGeneratedRoutineList; }
+	
+	/**
+	 * Returns the id of the currently logged in user.
+	 * @return The id of the currently logged in user
+	 */
+	public int getCurrentUser() { return currentUser; }
+	
+	/**
+	 * Returns the users personal record for weight lifted 
+	 * for the workout they are currently viewing.
+	 * @return The users personal record for weight lifted
+	 */
+	public String getPersonalRecordFromHistory()
+	{
+		double pr = 0.0;
+		for(TrackedWorkout tw : mCurrentlyViewedTrackedWorkoutList)
+		{
+			if(tw.getWeight() > pr)
+				pr = tw.getWeight();
+		}
+		
+		return (pr == 0.0) ? "N/A" : pr + " lbs";
+	}
+	
+	public ObservableList<TrackedWorkout> getTrackedHistoryList() {
+		return mCurrentlyViewedTrackedWorkoutList;
+	}
+	
+	public ObservableList<Workout> getAllWorkoutsList() {
+		return mAllWorkoutsList;
+	}
+	
+	public ObservableList<String> getAllMuscleGroups() {
+		FXCollections.sort(mAllMuscleGroupsList);
+		return mAllMuscleGroupsList;
+	}
+	
+	public ObservableList<String> getAllShoulderWorkoutsList() {
+		FXCollections.sort(mAllShoulderWorkoutsList);
+		return mAllShoulderWorkoutsList;
+	}
+	public ObservableList<String> getAllChestWorkoutsList() {
+		FXCollections.sort(mAllChestWorkoutsList);
+		return mAllChestWorkoutsList;
+	}
+	public ObservableList<String> getAllAbWorkoutsList() {
+		FXCollections.sort(mAllAbWorkoutsList);
+		return mAllAbWorkoutsList;
+	}
+	public ObservableList<String> getAllBicepWorkoutsList() {
+		FXCollections.sort(mAllBicepWorkoutsList);
+		return mAllBicepWorkoutsList;
+	}
+	public ObservableList<String> getAllBackWorkoutsList() {
+		FXCollections.sort(mAllBackWorkoutsList);
+		return mAllBackWorkoutsList;
+	}
+	public ObservableList<String> getAllTricepWorkoutsList() {
+		FXCollections.sort(mAllTricepWorkoutsList);
+		return mAllTricepWorkoutsList;
+	}
+	public ObservableList<String> getAllLegWorkoutsList() {
+		FXCollections.sort(mAllLegWorkoutsList);
+		return mAllLegWorkoutsList;
+	}
+	
+	// Setters
+	
+	/**
+	 * Sets the current user id to the new user id.
+	 * @param userId The new user id to set as the current user
+	 */
+	public void setCurrentUser(int userId) { currentUser = userId; }
 	
 	/**
 	 * Implemented from AutoCloseable.
