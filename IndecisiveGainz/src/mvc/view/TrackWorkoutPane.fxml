@@ -49,6 +49,7 @@
                   </Button>
                </children>
             </HBox>
+            <Button mnemonicParsing="false" onAction="#loadHistoryPane" prefHeight="30.0" prefWidth="210.0" style="-fx-background-radius: 0; -fx-background-color: #387ae2;" text="View Tracked History" textFill="WHITE" />
             <Label fx:id="statusMessage">
                <font>
                   <Font size="18.0" />

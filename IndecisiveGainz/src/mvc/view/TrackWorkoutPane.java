@@ -86,6 +86,12 @@ public class TrackWorkoutPane implements Initializable
 		statusMessage.setVisible(false);
 	}
 	
+	@FXML
+	public void loadHistoryPane()
+	{
+		ViewNavigator.loadPane("TrackedWorkoutsHistoryPane.fxml");
+	}
+	
 	/**
 	 * 
 	 * @param isViewPath

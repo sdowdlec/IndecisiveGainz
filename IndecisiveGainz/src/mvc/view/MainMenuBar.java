@@ -51,20 +51,9 @@ public class MainMenuBar
 	 *  Loads the MuscleGroupsPane
 	 */
 	@FXML
-	public void loadMuscleGroupsPaneTrack() 
+	public void loadMuscleGroupsPane() 
 	{
 		ViewNavigator.loadPane("MuscleGroupsPane.fxml");
-		MuscleGroupsPane.setPath("track");
-	}
-	
-	/**
-	 * Loads the MuscleGroupsPane
-	 */
-	@FXML
-	public void loadMuscleGroupsPaneView() 
-	{
-		ViewNavigator.loadPane("MuscleGroupsPane.fxml");
-		MuscleGroupsPane.setPath("view");
 	}
 	
 	/**

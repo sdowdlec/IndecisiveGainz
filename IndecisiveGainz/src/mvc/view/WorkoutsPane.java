@@ -52,14 +52,7 @@ public class WorkoutsPane implements Initializable
 		if(selectedItem != null)
 		{
 			selectedWorkout = selectedItem;
-			if(MuscleGroupsPane.getPath().equals("track"))
-			{
-				ViewNavigator.loadPane("TrackWorkoutPane.fxml");
-			}
-			else
-			{
-				ViewNavigator.loadPane("TrackedWorkoutsHistoryPane.fxml");
-			}
+			ViewNavigator.loadPane("TrackWorkoutPane.fxml");
 		}
 	}
 	
