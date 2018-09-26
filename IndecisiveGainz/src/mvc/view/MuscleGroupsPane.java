@@ -38,7 +38,7 @@ public class MuscleGroupsPane implements Initializable
 		if(selectedItem != null)
 		{
 			selectedMuscleGroup = selectedItem;
-			ViewNavigator.loadPane("WorkoutsPane.fxml");
+			ViewNavigator.loadPane(ViewNavigator.WORKOUTS_PANE);
 		}
 	}
 	

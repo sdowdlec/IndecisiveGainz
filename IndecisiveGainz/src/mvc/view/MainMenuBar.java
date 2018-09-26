@@ -44,7 +44,7 @@ public class MainMenuBar
 	@FXML
 	public void loadCreateWorkoutPane() 
 	{
-		ViewNavigator.loadPane("CreateWorkoutPane.fxml");
+		ViewNavigator.loadPane(ViewNavigator.CREATE_WORKOUT_PANE);
 	}
 	
 	/**
@@ -53,7 +53,7 @@ public class MainMenuBar
 	@FXML
 	public void loadMuscleGroupsPane() 
 	{
-		ViewNavigator.loadPane("MuscleGroupsPane.fxml");
+		ViewNavigator.loadPane(ViewNavigator.MUSCLE_GROUPS_PANE);
 	}
 	
 	/**
@@ -64,6 +64,6 @@ public class MainMenuBar
 	@FXML
 	public void loadGenerateRoutineOptions() 
 	{
-		ViewNavigator.loadPane("GenerateRoutinePane.fxml");
+		ViewNavigator.loadPane(ViewNavigator.GENERATE_ROUTINE_PANE);
 	}
 }

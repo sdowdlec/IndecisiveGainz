@@ -89,7 +89,7 @@ public class TrackWorkoutPane implements Initializable
 	@FXML
 	public void loadHistoryPane()
 	{
-		ViewNavigator.loadPane("TrackedWorkoutsHistoryPane.fxml");
+		ViewNavigator.loadPane(ViewNavigator.TRACKED_HISTORY_PANE);
 	}
 	
 	/**
@@ -108,9 +108,9 @@ public class TrackWorkoutPane implements Initializable
 	public void back()
 	{
 		if(isViewGeneratedPath)
-			ViewNavigator.loadPane("ViewGeneratedRoutinePane.fxml");
+			ViewNavigator.loadPane(ViewNavigator.VIEW_GENERATED_PANE);
 		else
-			ViewNavigator.loadPane("WorkoutsPane.fxml");
+			ViewNavigator.loadPane(ViewNavigator.WORKOUTS_PANE);
 		
 		isViewGeneratedPath = false;
 	}

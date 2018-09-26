@@ -36,7 +36,7 @@ public class WorkoutsPane implements Initializable
 	@FXML
 	public void loadMuscleGroupPane() 
 	{
-		ViewNavigator.loadPane("MuscleGroupsPane.fxml");
+		ViewNavigator.loadPane(ViewNavigator.MUSCLE_GROUPS_PANE);
 	}
 	
 	/**
@@ -52,7 +52,7 @@ public class WorkoutsPane implements Initializable
 		if(selectedItem != null)
 		{
 			selectedWorkout = selectedItem;
-			ViewNavigator.loadPane("TrackWorkoutPane.fxml");
+			ViewNavigator.loadPane(ViewNavigator.TRACK_WORKOUT_PANE);
 		}
 	}
 	

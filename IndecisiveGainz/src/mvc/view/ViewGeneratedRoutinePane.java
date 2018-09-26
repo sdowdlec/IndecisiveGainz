@@ -42,7 +42,7 @@ public class ViewGeneratedRoutinePane implements Initializable
 	@FXML
 	public void loadGenerateRoutinePane()
 	{
-		ViewNavigator.loadPane("GenerateRoutinePane.fxml");
+		ViewNavigator.loadPane(ViewNavigator.GENERATE_ROUTINE_PANE);
 	}
 	
 	/**
@@ -56,7 +56,7 @@ public class ViewGeneratedRoutinePane implements Initializable
 	{
 		WorkoutsPane.setSelectedWorkout(generatedRoutineLV.getSelectionModel().getSelectedItem());
 		TrackWorkoutPane.setIsViewGeneratedPath(true);
-		ViewNavigator.loadPane("TrackWorkoutPane.fxml");
+		ViewNavigator.loadPane(ViewNavigator.TRACK_WORKOUT_PANE);
 	}
 	
 	/**

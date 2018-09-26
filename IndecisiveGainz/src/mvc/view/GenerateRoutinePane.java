@@ -220,7 +220,7 @@ public class GenerateRoutinePane implements Initializable
 	 */
 	@FXML
 	public void loadViewGeneratedRoutinePane() {
-		ViewNavigator.loadPane("ViewGeneratedRoutinePane.fxml");
+		ViewNavigator.loadPane(ViewNavigator.VIEW_GENERATED_PANE);
 	}
 	
 	/**

@@ -44,7 +44,7 @@ public class TrackedWorkoutsHistoryPane implements Initializable
 	@FXML
 	public void back() 
 	{
-		ViewNavigator.loadPane("TrackWorkoutPane.fxml");
+		ViewNavigator.loadPane(ViewNavigator.TRACK_WORKOUT_PANE);
 	}
 	
 	/**

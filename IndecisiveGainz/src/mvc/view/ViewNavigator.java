@@ -22,6 +22,16 @@ public class ViewNavigator
 	public static final String SIGNUP_SCENE = "SignupScene.fxml";
 	public static final String MAIN_SCENE = "MainScene.fxml";
 	
+	public static final String CREATE_WORKOUT_PANE = "CreateWorkoutPane.fxml";
+	public static final String GENERATE_ROUTINE_PANE = "GenerateRoutinePane.fxml";
+	public static final String HOME_PANE = "HomePane.fxml";
+	public static final String MAIN_MENU_BAR = "MainMenuBar.fxml";
+	public static final String MUSCLE_GROUPS_PANE = "MuscleGroupsPane.fxml";
+	public static final String TRACKED_HISTORY_PANE = "TrackedWorkoutsHistoryPane.fxml";
+	public static final String TRACK_WORKOUT_PANE = "TrackWorkoutPane.fxml";
+	public static final String VIEW_GENERATED_PANE = "ViewGeneratedRoutinePane.fxml";
+	public static final String WORKOUTS_PANE = "WorkoutsPane.fxml";
+	
 	/**
 	 * Sets the mainStage.
 	 * @param stage
@@ -79,7 +89,7 @@ public class ViewNavigator
 		mainStage.setResizable(false);
 		mainStage.setWidth(786);
 		mainStage.setHeight(500);
-		loadPane("MainMenuBar.fxml");
+		loadPane(MAIN_MENU_BAR);
 		Scene scene = new Scene(menuContainer);
 		mainStage.setTitle("Main Menu");
 		mainStage.setScene(scene);
