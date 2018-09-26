@@ -90,6 +90,7 @@ public class ViewNavigator
 		mainStage.setWidth(786);
 		mainStage.setHeight(500);
 		loadPane(MAIN_MENU_BAR);
+		loadPane(HOME_PANE);
 		Scene scene = new Scene(menuContainer);
 		mainStage.setTitle("Main Menu");
 		mainStage.setScene(scene);

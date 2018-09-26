@@ -143,7 +143,9 @@ public class Authentication
 				}
 				catch(SQLException e)
 				{
+					// TODO SQLITE_BUSY being caught here
 					System.out.println(e.getMessage());
+					return false;
 				}
 				return true;
 			}

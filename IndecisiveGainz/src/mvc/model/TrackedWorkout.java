@@ -24,7 +24,7 @@ public class TrackedWorkout extends Workout
 	 * @param weight The amount of weight (in pounds) the user recorded doing for the given set
 	 * @param dateRecorded The date that the user recorded doing the workout
 	 */
-	public TrackedWorkout(int id, String muscleGroup, String workoutName, int reps, double weight, String dateRecorded)
+	public TrackedWorkout(int id, String muscleGroup, String workoutName, double weight, int reps, String dateRecorded)
 	{
 		super(id, workoutName, muscleGroup);
 		mReps = reps;

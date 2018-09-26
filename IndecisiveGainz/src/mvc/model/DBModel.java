@@ -89,9 +89,53 @@ public class DBModel implements AutoCloseable
 	 */
 	public String getItemOnCondition(String condition, String conditionField) throws SQLException
 	{
-		String selectSQL = "SELECT FROM " + mTableName + " WHERE " + conditionField + " = " + condition;
+		String selectSQL = "SELECT * FROM " + mTableName + " WHERE " + conditionField + " = " + condition;
+		System.out.println(selectSQL);
 		ResultSet rs = mStmt.executeQuery(selectSQL);
 		String value = rs.getString(conditionField);
+		
+		return value;
+	}
+	
+	/**
+	 * Queries the table on a field and condition to return the value
+	 * @param condition The condition to query on
+	 * @param conditionField The field to query on
+	 * @param field The field to retrieve the value from
+	 * @return The value from the field that was found from the query
+	 * @throws SQLException
+	 */
+	public String getItemOnConditions(String condition, String conditionField, String field) throws SQLException
+	{
+		String selectSQL = "SELECT * FROM " + mTableName + " WHERE " + conditionField + " = " + condition;
+		System.out.println(selectSQL);
+		ResultSet rs = mStmt.executeQuery(selectSQL);
+		String value = rs.getString(field);
+		
+		return value;
+	}
+	
+	/**
+	 * Queries the table on a primary key to return a value from the specified field.
+	 * @param key The primary key of the record to query on
+	 * @param field The field name to get the value from
+	 * @return a value from the specified field on a given key
+	 * @throws SQLException
+	 */
+	public String getValueOnKey(int key, String field) throws SQLException
+	{
+		String selectSQL = "SELECT * FROM " + mTableName + " WHERE id = " + key;
+		ResultSet rs = mStmt.executeQuery(selectSQL);
+		String value = rs.getString(field);
+		
+		return value;
+	}
+	
+	public String getMaxOnField(String field, String conditionField, String condition) throws SQLException
+	{
+		String selectSQL = "SELECT MAX(" + field + ") FROM " + mTableName + " WHERE " + conditionField + " = '" + condition + "'";
+		ResultSet rs = mStmt.executeQuery(selectSQL);
+		String value = rs.getString(1);
 		
 		return value;
 	}

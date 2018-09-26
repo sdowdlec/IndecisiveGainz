@@ -279,7 +279,7 @@ public class Controller implements AutoCloseable
 					double weight = trackedWorkouts.getDouble(TRACKED_WORKOUTS_FIELD_NAMES[4]);
 					String dateRecorded = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[5]);
 							
-					mCurrentlyViewedTrackedWorkoutList.add(new TrackedWorkout(id, muscleGroup, name, reps, weight, dateRecorded));
+					mCurrentlyViewedTrackedWorkoutList.add(new TrackedWorkout(id, muscleGroup, name, weight, reps, dateRecorded));
 					++createdRecords;
 				}
 			}
@@ -376,7 +376,7 @@ public class Controller implements AutoCloseable
 			Integer.valueOf(reps);
 			Double.valueOf(weight);
 			
-			String[] values = { muscleGroup, workoutName, reps, weight, dateRecorded, String.valueOf(currentUser) };
+			String[] values = { muscleGroup, workoutName, weight, reps, dateRecorded, String.valueOf(currentUser) };
 			mTrackedWorkoutsDB.createRecord(Arrays.copyOfRange(TRACKED_WORKOUTS_FIELD_NAMES, 1, TRACKED_WORKOUTS_FIELD_NAMES.length), values);
 			
 			return true;
@@ -561,6 +561,19 @@ public class Controller implements AutoCloseable
 	 */
 	public int getCurrentUser() { return currentUser; }
 	
+	public String getCurrentUsername()
+	{
+		String value = null;
+		try {
+			value = mUsersDB.getValueOnKey(currentUser, USERS_FIELD_NAMES[1]);
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return value;
+	}
+	
 	/**
 	 * Returns the users personal record for weight lifted 
 	 * for the workout they are currently viewing.
@@ -619,6 +632,68 @@ public class Controller implements AutoCloseable
 		FXCollections.sort(mAllLegWorkoutsList);
 		return mAllLegWorkoutsList;
 	}
+	
+	/**
+	 * Gets the highest weight lifted for a tracked workout for each muscle group.
+	 * A value for any given index may be set to null if there are no records for that muscle group in the table.
+	 * This will be used by the home page for statistical purposes.
+	 * @return an array of doubles of the highest weight lifted for each muscle group in alphabetical order
+	 */
+	public String[] getAllMaxWeight()
+	{
+		int numOfMuscleGroups = mAllMuscleGroupsList.size();
+		String allMaxWeights[] = new String[numOfMuscleGroups];
+		FXCollections.sort(mAllMuscleGroupsList);
+		
+		//  { "id", "muscle_group", "workout_name", "weight", "reps", "date_recorded", "user_id" }
+		for(int i = 0; i < numOfMuscleGroups; i++)
+		{
+			String strMax = null;
+			try {
+				strMax = mTrackedWorkoutsDB.getMaxOnField(TRACKED_WORKOUTS_FIELD_NAMES[3], TRACKED_WORKOUTS_FIELD_NAMES[1], mAllMuscleGroupsList.get(i));
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			allMaxWeights[i] = strMax;
+		}
+		
+		return allMaxWeights;
+	}
+	
+	/**
+	 * Gets the date recorded for each weight personal record.
+	 * A value for any given index may be set to null if there are no records for that muscle group in the table.
+	 * @param prList An array of the PRs for each muscle group to use to query the date recorded for it
+	 * @return an array containing all of the dates recorded for each personal record
+	 */
+	public String[] getPRDatesFromList(String[] prList)
+	{
+		int listSize = prList.length;
+		String[] allPRDates = new String[listSize];
+		
+		for(int i = 0; i < listSize; i++)
+		{
+			String prDate = null;
+			if(prList[i] != null)
+			{
+				try {
+					prDate = mTrackedWorkoutsDB.getItemOnConditions(prList[i], TRACKED_WORKOUTS_FIELD_NAMES[3], TRACKED_WORKOUTS_FIELD_NAMES[5]);
+					String[] dateData = prDate.split("\\.");
+					prDate = dateData[1] + "/" + dateData[2] + "/" + dateData[0];
+				}
+				catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			allPRDates[i] = prDate;
+		}
+		
+		return allPRDates;
+	}
+
 	
 	// Setters
 	
