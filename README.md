@@ -9,4 +9,5 @@ IndecisiveGainz is desktop workout tracking application with a multitude of feat
 *  Login as a guest to save your data if you do not wish to create a local login.
 
 **Coming Soon**
-*  Unsure
+*  Home page with general statistics of your tracked workouts.
+*  Include a cardio section
