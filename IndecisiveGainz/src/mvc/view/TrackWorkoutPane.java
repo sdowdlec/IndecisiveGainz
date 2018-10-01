@@ -58,7 +58,7 @@ public class TrackWorkoutPane implements Initializable
 		String weight = weightTF.getText();
 		String dateRecorded = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
 		
-		boolean isAdded = controller.trackNewWorkout(workoutName, muscleGroup, reps, weight, dateRecorded);
+		boolean isAdded = controller.trackNewWorkout(workoutName, muscleGroup, weight, reps, dateRecorded);
 		if(isAdded)
 		{
 			statusMessage.setTextFill(Color.GREEN);

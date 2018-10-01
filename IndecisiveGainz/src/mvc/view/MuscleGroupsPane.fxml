@@ -21,7 +21,7 @@
       </Label>
    </top>
    <bottom>
-      <Button fx:id="backButton" mnemonicParsing="false" style="-fx-background-color: transparent;" textFill="TRANSPARENT" BorderPane.alignment="BOTTOM_LEFT">
+      <Button mnemonicParsing="false" onAction="#loadHomePage" style="-fx-background-color: transparent;" textFill="TRANSPARENT" BorderPane.alignment="BOTTOM_LEFT">
          <graphic>
             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>

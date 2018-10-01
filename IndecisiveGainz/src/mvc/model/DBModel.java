@@ -90,7 +90,7 @@ public class DBModel implements AutoCloseable
 	public String getItemOnCondition(String condition, String conditionField) throws SQLException
 	{
 		String selectSQL = "SELECT * FROM " + mTableName + " WHERE " + conditionField + " = " + condition;
-		System.out.println(selectSQL);
+		//System.out.println(selectSQL);
 		ResultSet rs = mStmt.executeQuery(selectSQL);
 		String value = rs.getString(conditionField);
 		
@@ -108,7 +108,7 @@ public class DBModel implements AutoCloseable
 	public String getItemOnConditions(String condition, String conditionField, String field) throws SQLException
 	{
 		String selectSQL = "SELECT * FROM " + mTableName + " WHERE " + conditionField + " = " + condition;
-		System.out.println(selectSQL);
+		//System.out.println(selectSQL);
 		ResultSet rs = mStmt.executeQuery(selectSQL);
 		String value = rs.getString(field);
 		
@@ -159,13 +159,19 @@ public class DBModel implements AutoCloseable
 	 */
 	public int getRecordCount() throws SQLException 
 	{
-		int count = 0;
-		try (ResultSet rs = getAllRecords())
-		{
-			while (rs.next())
-				count++;
-		}
-		return count;
+		String selectSQL = "SELECT COUNT(*) FROM " + mTableName;
+		return mStmt.executeQuery(selectSQL).getInt(1);
+	}
+	
+	/**
+	 * Returns the number of records in a table.
+	 * @return The number of records in a table.
+	 * @throws SQLException
+	 */
+	public int getRecordCountOnValue(String field, String value) throws SQLException 
+	{
+		String selectSQL = "SELECT COUNT(*) FROM " + mTableName + " WHERE " + field + " = '" + value + "'";
+		return mStmt.executeQuery(selectSQL).getInt(1);
 	}
 	
 	/**
@@ -188,7 +194,7 @@ public class DBModel implements AutoCloseable
 		for (int i = 0; i < values.length; i++)
 			insertSQL.append(convertToSQLText(fields[i], values[i])).append((i < values.length - 1) ? "," : ")");
 
-		System.out.println(insertSQL);
+		//System.out.println(insertSQL);
 		mStmt.executeUpdate(insertSQL.toString());
 		
 		return mStmt.getGeneratedKeys().getInt(1);

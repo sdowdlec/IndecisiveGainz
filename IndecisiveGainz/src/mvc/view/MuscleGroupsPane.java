@@ -2,10 +2,8 @@ package mvc.view;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import mvc.controller.Controller;
@@ -24,8 +22,6 @@ public class MuscleGroupsPane implements Initializable
 	@FXML
 	private BorderPane workouts;
 	@FXML
-	private Button backButton;
-	@FXML
 	private ListView<String> muscleGroupsLV;
 
 	/*
@@ -40,6 +36,12 @@ public class MuscleGroupsPane implements Initializable
 			selectedMuscleGroup = selectedItem;
 			ViewNavigator.loadPane(ViewNavigator.WORKOUTS_PANE);
 		}
+	}
+	
+	@FXML
+	public void loadHomePage()
+	{
+		ViewNavigator.loadPane(ViewNavigator.HOME_PANE);
 	}
 	
 	public static String getSelectedMuscleGroup() { return selectedMuscleGroup; }

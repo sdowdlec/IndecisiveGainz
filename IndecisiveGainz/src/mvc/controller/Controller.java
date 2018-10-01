@@ -3,7 +3,6 @@ package mvc.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import mvc.model.*;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.ResultSet;
@@ -158,15 +157,12 @@ public class Controller implements AutoCloseable
 	
 	/**
 	 * Initializes all of the different Workouts lists.
-	 * @param workouts The ResultSet containing all of the workouts in the database
 	 * @throws SQLException
 	 */
 	public void initializeWorkoutLists()
 	{
-		try
+		try(ResultSet workouts = theInstance.mWorkoutsDB.getAllRecords();)
 		{
-			ResultSet workouts = theInstance.mWorkoutsDB.getAllRecords();
-			
 			if(workouts != null)
 			{
 				if(!theInstance.mAllWorkoutsList.isEmpty())
@@ -226,13 +222,18 @@ public class Controller implements AutoCloseable
 		}
 	}
 	
-	private void initializeMuscleGroupsList() throws SQLException
+	private void initializeMuscleGroupsList()
 	{
-		ResultSet workouts = theInstance.mWorkoutsDB.getAllRecords();
+		try(ResultSet workouts = theInstance.mWorkoutsDB.getAllRecords();)
+		{
+			while(workouts.next())
+				if(!theInstance.mAllMuscleGroupsList.contains(workouts.getString(2)))
+					theInstance.mAllMuscleGroupsList.add(workouts.getString(2));
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
-		while(workouts.next())
-			if(!theInstance.mAllMuscleGroupsList.contains(workouts.getString(2)))
-				theInstance.mAllMuscleGroupsList.add(workouts.getString(2));
 	}
 	
 	@SuppressWarnings("unused")
@@ -263,10 +264,8 @@ public class Controller implements AutoCloseable
 		if(mCurrentlyViewedTrackedWorkoutList.size() != 0)
 			mCurrentlyViewedTrackedWorkoutList.clear();
 		
-		try 
-		{
-			ResultSet trackedWorkouts = mTrackedWorkoutsDB.getRecordsOnField(TRACKED_WORKOUTS_FIELD_NAMES[2], workoutName);
-				
+		try(ResultSet trackedWorkouts = mTrackedWorkoutsDB.getRecordsOnField(TRACKED_WORKOUTS_FIELD_NAMES[2], workoutName);)
+		{	
 			while(trackedWorkouts.next())
 			{
 				String userId = trackedWorkouts.getString("user_id");
@@ -275,8 +274,8 @@ public class Controller implements AutoCloseable
 					int id = trackedWorkouts.getInt(TRACKED_WORKOUTS_FIELD_NAMES[0]);
 					String muscleGroup = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[1]);
 					String name = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[2]);
-					int reps = trackedWorkouts.getInt(TRACKED_WORKOUTS_FIELD_NAMES[3]);
-					double weight = trackedWorkouts.getDouble(TRACKED_WORKOUTS_FIELD_NAMES[4]);
+					double weight = trackedWorkouts.getDouble(TRACKED_WORKOUTS_FIELD_NAMES[3]);
+					int reps = trackedWorkouts.getInt(TRACKED_WORKOUTS_FIELD_NAMES[4]);
 					String dateRecorded = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[5]);
 							
 					mCurrentlyViewedTrackedWorkoutList.add(new TrackedWorkout(id, muscleGroup, name, weight, reps, dateRecorded));
@@ -366,7 +365,7 @@ public class Controller implements AutoCloseable
 	 * @param dateRecorded The date they tracked the workout
 	 * @return A boolean based on if the workout was successfully tracked or not
 	 */
-	public boolean trackNewWorkout(String workoutName, String muscleGroup, String reps, String weight, String dateRecorded)
+	public boolean trackNewWorkout(String workoutName, String muscleGroup, String weight, String reps, String dateRecorded)
 	{
 		if(reps.equals("") || weight.equals(""))
 			return false;
@@ -387,6 +386,7 @@ public class Controller implements AutoCloseable
 		}
 		catch(SQLException e)
 		{
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -401,8 +401,8 @@ public class Controller implements AutoCloseable
 	{
 		try
 		{
-			mCurrentlyViewedTrackedWorkoutList.remove(selectedItem);
 			mTrackedWorkoutsDB.deleteRecord(String.valueOf(selectedItem.getId()));
+			mCurrentlyViewedTrackedWorkoutList.remove(selectedItem);
 		}
 		catch(SQLException e)
 		{
@@ -561,6 +561,10 @@ public class Controller implements AutoCloseable
 	 */
 	public int getCurrentUser() { return currentUser; }
 	
+	/**
+	 * Queries the users table to get the username based on a primary key.
+	 * @return the username associated with the primary key
+	 */
 	public String getCurrentUsername()
 	{
 		String value = null;
@@ -693,6 +697,36 @@ public class Controller implements AutoCloseable
 		
 		return allPRDates;
 	}
+	
+	public double[] getWorkoutPercentages()
+	{
+		double numTrackedWorkouts = 0.0;
+		
+		try {
+			numTrackedWorkouts = mTrackedWorkoutsDB.getRecordCount();
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		int numMuscleGroups = mAllMuscleGroupsList.size();
+		double[] allWorkoutPercentages = new double[numMuscleGroups];
+		
+		if(numTrackedWorkouts > 0.0)
+		{
+			for(int i = 0; i < numMuscleGroups; i++)
+			{
+				try {
+					allWorkoutPercentages[i] = (mTrackedWorkoutsDB.getRecordCountOnValue("muscle_group", mAllMuscleGroupsList.get(i)) / numTrackedWorkouts) * 100;
+				} 
+				catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return allWorkoutPercentages;
+	}
 
 	
 	// Setters
@@ -702,6 +736,8 @@ public class Controller implements AutoCloseable
 	 * @param userId The new user id to set as the current user
 	 */
 	public void setCurrentUser(int userId) { currentUser = userId; }
+	
+	
 	
 	/**
 	 * Implemented from AutoCloseable.

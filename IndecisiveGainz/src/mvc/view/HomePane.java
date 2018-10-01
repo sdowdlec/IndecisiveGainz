@@ -1,6 +1,7 @@
 package mvc.view;
 
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -59,27 +60,11 @@ public class HomePane implements Initializable
 	private Label shouldersPercentLabel;
 	@FXML
 	private Label tricepsPercentLabel;
-	@FXML
-	private Label AbsRepsLabel;
-	@FXML
-	private Label backRepsLabel;
-	@FXML
-	private Label bicepRepsLabel;
-	@FXML
-	private Label chestRepsLabel;
-	@FXML
-	private Label legRepsLabel;
-	@FXML
-	private Label shoulderRepsLabel;
-	@FXML
-	private Label tricepRepsLabel;
 	
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
-		// TODO Initialize HomePane
-		
 		// welcomeLabel.setText("Welcome " + controller.getCurrentUsername()); // THE ERROR FOR SQLITE BUSY IS HERE
 		String[] allWeightPR = controller.getAllMaxWeight();
 		absWeightLabel.setText(allWeightPR[0]);
@@ -98,6 +83,16 @@ public class HomePane implements Initializable
 		legsPRDateLabel.setText(allPRDates[4]);
 		shouldersPRDateLabel.setText(allPRDates[5]);
 		tricepsPRDateLabel.setText(allPRDates[6]);
+		
+		double[] allWorkoutsPercentages = controller.getWorkoutPercentages();
+		DecimalFormat twoDP = new DecimalFormat("0.00");
+		absPercentLabel.setText(twoDP.format(allWorkoutsPercentages[0]) + "%");
+		backPercentLabel.setText(twoDP.format(allWorkoutsPercentages[1]) + "%");
+		bicepsPercentLabel.setText(twoDP.format(allWorkoutsPercentages[2]) + "%");
+		chestPercentLabel.setText(twoDP.format(allWorkoutsPercentages[3]) + "%");
+		legsPercentLabel.setText(twoDP.format(allWorkoutsPercentages[4]) + "%");
+		shouldersPercentLabel.setText(twoDP.format(allWorkoutsPercentages[5]) + "%");
+		tricepsPercentLabel.setText(twoDP.format(allWorkoutsPercentages[6]) + "%");
 	}
 
 }
