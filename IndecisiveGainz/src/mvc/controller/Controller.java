@@ -28,7 +28,7 @@ public class Controller implements AutoCloseable
 	private DBModel mTrackedWorkoutsDB;
 	private DBModel mUsersDB;
 	
-	private int currentUser = 0;
+	private int mCurrentUser = 0;
 	
 	private ObservableList<Workout> mAllWorkoutsList;
 	private ObservableList<TrackedWorkout> mCurrentlyViewedTrackedWorkoutList;
@@ -180,7 +180,7 @@ public class Controller implements AutoCloseable
 				while(workouts.next())
 				{
 					String userId = workouts.getString("user_id");
-					if(userId.equals("0") || userId.equals(String.valueOf(currentUser)))
+					if(userId.equals("0") || userId.equals(String.valueOf(mCurrentUser)))
 					{
 						int id = workouts.getInt(WORKOUTS_FIELD_NAMES[0]);
 						String muscleGroup = workouts.getString(WORKOUTS_FIELD_NAMES[1]);
@@ -269,7 +269,7 @@ public class Controller implements AutoCloseable
 			while(trackedWorkouts.next())
 			{
 				String userId = trackedWorkouts.getString("user_id");
-				if(userId.equals("0") || userId.equals(String.valueOf(currentUser)))
+				if(userId.equals("0") || userId.equals(String.valueOf(mCurrentUser)))
 				{
 					int id = trackedWorkouts.getInt(TRACKED_WORKOUTS_FIELD_NAMES[0]);
 					String muscleGroup = trackedWorkouts.getString(TRACKED_WORKOUTS_FIELD_NAMES[1]);
@@ -313,7 +313,7 @@ public class Controller implements AutoCloseable
 		{
 			try
 			{
-				String[] values = { muscleGroup, workoutName, String.valueOf(currentUser) };
+				String[] values = { muscleGroup, workoutName, String.valueOf(mCurrentUser) };
 				int id = mWorkoutsDB.createRecord(Arrays.copyOfRange(WORKOUTS_FIELD_NAMES, 1, WORKOUTS_FIELD_NAMES.length), values);
 				mAllWorkoutsList.add(new Workout(id, muscleGroup, workoutName));
 				addWorkoutToCorrectWorkoutList(workoutName, muscleGroup);
@@ -375,7 +375,7 @@ public class Controller implements AutoCloseable
 			Integer.valueOf(reps);
 			Double.valueOf(weight);
 			
-			String[] values = { muscleGroup, workoutName, weight, reps, dateRecorded, String.valueOf(currentUser) };
+			String[] values = { muscleGroup, workoutName, weight, reps, dateRecorded, String.valueOf(mCurrentUser) };
 			mTrackedWorkoutsDB.createRecord(Arrays.copyOfRange(TRACKED_WORKOUTS_FIELD_NAMES, 1, TRACKED_WORKOUTS_FIELD_NAMES.length), values);
 			
 			return true;
@@ -559,7 +559,7 @@ public class Controller implements AutoCloseable
 	 * Returns the id of the currently logged in user.
 	 * @return The id of the currently logged in user
 	 */
-	public int getCurrentUser() { return currentUser; }
+	public int getCurrentUser() { return mCurrentUser; }
 	
 	/**
 	 * Queries the users table to get the username based on a primary key.
@@ -569,7 +569,7 @@ public class Controller implements AutoCloseable
 	{
 		String value = null;
 		try {
-			value = mUsersDB.getValueOnKey(currentUser, USERS_FIELD_NAMES[1]);
+			value = mUsersDB.getValueOnKey(mCurrentUser, USERS_FIELD_NAMES[1]);
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
@@ -654,12 +654,12 @@ public class Controller implements AutoCloseable
 		{
 			String strMax = null;
 			try {
-				strMax = mTrackedWorkoutsDB.getMaxOnField(TRACKED_WORKOUTS_FIELD_NAMES[3], TRACKED_WORKOUTS_FIELD_NAMES[1], mAllMuscleGroupsList.get(i));
+				strMax = mTrackedWorkoutsDB.getMaxOnFieldId(TRACKED_WORKOUTS_FIELD_NAMES[3], TRACKED_WORKOUTS_FIELD_NAMES[1], mAllMuscleGroupsList.get(i), TRACKED_WORKOUTS_FIELD_NAMES[6], mCurrentUser);
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
 			}
-			
+
 			allMaxWeights[i] = strMax;
 		}
 		
@@ -683,7 +683,7 @@ public class Controller implements AutoCloseable
 			if(prList[i] != null)
 			{
 				try {
-					prDate = mTrackedWorkoutsDB.getItemOnConditions(prList[i], TRACKED_WORKOUTS_FIELD_NAMES[3], TRACKED_WORKOUTS_FIELD_NAMES[5]);
+					prDate = mTrackedWorkoutsDB.getItemOnConditionsId(prList[i], TRACKED_WORKOUTS_FIELD_NAMES[3], TRACKED_WORKOUTS_FIELD_NAMES[5], TRACKED_WORKOUTS_FIELD_NAMES[6], mCurrentUser);
 					String[] dateData = prDate.split("\\.");
 					prDate = dateData[1] + "/" + dateData[2] + "/" + dateData[0];
 				}
@@ -698,6 +698,10 @@ public class Controller implements AutoCloseable
 		return allPRDates;
 	}
 	
+	/**
+	 * Returns the percentage that each muscle group takes up of the users total tracked workouts.
+	 * @return the percentage that each muscle group takes up of the users total tracked workouts.
+	 */
 	public double[] getWorkoutPercentages()
 	{
 		double numTrackedWorkouts = 0.0;
@@ -717,7 +721,8 @@ public class Controller implements AutoCloseable
 			for(int i = 0; i < numMuscleGroups; i++)
 			{
 				try {
-					allWorkoutPercentages[i] = (mTrackedWorkoutsDB.getRecordCountOnValue("muscle_group", mAllMuscleGroupsList.get(i)) / numTrackedWorkouts) * 100;
+					double numMuscleGroup = mTrackedWorkoutsDB.getRecordCountOnValueId(TRACKED_WORKOUTS_FIELD_NAMES[1], mAllMuscleGroupsList.get(i), TRACKED_WORKOUTS_FIELD_NAMES[6], mCurrentUser);
+					allWorkoutPercentages[i] = (numMuscleGroup / numTrackedWorkouts) * 100;
 				} 
 				catch (SQLException e) {
 					e.printStackTrace();
@@ -735,7 +740,7 @@ public class Controller implements AutoCloseable
 	 * Sets the current user id to the new user id.
 	 * @param userId The new user id to set as the current user
 	 */
-	public void setCurrentUser(int userId) { currentUser = userId; }
+	public void setCurrentUser(int userId) { mCurrentUser = userId; }
 	
 	
 	

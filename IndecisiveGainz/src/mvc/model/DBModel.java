@@ -108,7 +108,25 @@ public class DBModel implements AutoCloseable
 	public String getItemOnConditions(String condition, String conditionField, String field) throws SQLException
 	{
 		String selectSQL = "SELECT * FROM " + mTableName + " WHERE " + conditionField + " = " + condition;
-		//System.out.println(selectSQL);
+		ResultSet rs = mStmt.executeQuery(selectSQL);
+		String value = rs.getString(field);
+		
+		return value;
+	}
+	
+	/**
+	 * Queries the table to get the value from a record based on the field+value and id+key value
+	 * @param condition The condition to search for on the specified field
+	 * @param conditionField The field to search on the specified condition
+	 * @param field The field to search for the max value
+	 * @param idFieldName The name of the field that contains the id to search for
+	 * @param id The id to search for
+	 * @return the maximum value of a field based on the specified field+value and id+key value
+	 * @throws SQLException
+	 */
+	public String getItemOnConditionsId(String condition, String conditionField, String field, String idFieldName, int id) throws SQLException
+	{
+		String selectSQL = "SELECT * FROM " + mTableName + " WHERE " + conditionField + " = " + condition + " AND " + idFieldName + " = " + id + ";";
 		ResultSet rs = mStmt.executeQuery(selectSQL);
 		String value = rs.getString(field);
 		
@@ -131,12 +149,39 @@ public class DBModel implements AutoCloseable
 		return value;
 	}
 	
+	/**
+	 * 
+	 * @param field
+	 * @param conditionField
+	 * @param condition
+	 * @return
+	 * @throws SQLException
+	 */
 	public String getMaxOnField(String field, String conditionField, String condition) throws SQLException
 	{
 		String selectSQL = "SELECT MAX(" + field + ") FROM " + mTableName + " WHERE " + conditionField + " = '" + condition + "'";
 		ResultSet rs = mStmt.executeQuery(selectSQL);
 		String value = rs.getString(1);
 		
+		return value;
+	}
+	
+	/**
+	 * Queries the table to get the maximum value of a field based on the specified field+value and id+key value.
+	 * @param field The field to search for the max value
+	 * @param conditionField The field to search on the specified condition
+	 * @param condition The condition to search for on the specified field
+	 * @param idFieldName The name of the field that contains the id to search for
+	 * @param id The id to search for
+	 * @return the maximum value of a field based on the specified field+value and id+key value
+	 * @throws SQLException
+	 */
+	public String getMaxOnFieldId(String field, String conditionField, String condition, String idFieldName, int id) throws SQLException
+	{
+		String selectSQL = "SELECT MAX(" + field + ") FROM " + mTableName + " WHERE " + conditionField + " = '" + condition + "' AND " + idFieldName + " = " + id + ";";
+		ResultSet rs = mStmt.executeQuery(selectSQL);
+		String value = rs.getString(1);
+
 		return value;
 	}
 	
@@ -164,13 +209,30 @@ public class DBModel implements AutoCloseable
 	}
 	
 	/**
-	 * Returns the number of records in a table.
-	 * @return The number of records in a table.
+	 * 
+	 * @param field
+	 * @param value
+	 * @return
 	 * @throws SQLException
 	 */
 	public int getRecordCountOnValue(String field, String value) throws SQLException 
 	{
 		String selectSQL = "SELECT COUNT(*) FROM " + mTableName + " WHERE " + field + " = '" + value + "'";
+		return mStmt.executeQuery(selectSQL).getInt(1);
+	}
+	
+	/**
+	 * Returns the number of records that match the conditions of the specified field+value and id+key value.
+	 * @param field The field to search for the specified value
+	 * @param value The value to search for on the specified field
+	 * @param idFieldName The name of the field that contains the id to search for
+	 * @param id The id to search for
+	 * @return the number of records that match the conditions of the specified field+value and id+key value
+	 * @throws SQLException
+	 */
+	public int getRecordCountOnValueId(String field, String value, String idFieldName, int id) throws SQLException 
+	{
+		String selectSQL = "SELECT COUNT(*) FROM " + mTableName + " WHERE " + field + " = '" + value + "' AND " + idFieldName + " = " + id + ";";
 		return mStmt.executeQuery(selectSQL).getInt(1);
 	}
 	
@@ -194,7 +256,6 @@ public class DBModel implements AutoCloseable
 		for (int i = 0; i < values.length; i++)
 			insertSQL.append(convertToSQLText(fields[i], values[i])).append((i < values.length - 1) ? "," : ")");
 
-		//System.out.println(insertSQL);
 		mStmt.executeUpdate(insertSQL.toString());
 		
 		return mStmt.getGeneratedKeys().getInt(1);
