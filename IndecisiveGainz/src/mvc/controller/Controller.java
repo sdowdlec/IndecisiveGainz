@@ -707,7 +707,7 @@ public class Controller implements AutoCloseable
 		double numTrackedWorkouts = 0.0;
 		
 		try {
-			numTrackedWorkouts = mTrackedWorkoutsDB.getRecordCount();
+			numTrackedWorkouts = mTrackedWorkoutsDB.getRecordCountOnValue(TRACKED_WORKOUTS_FIELD_NAMES[6], String.valueOf(mCurrentUser));
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
